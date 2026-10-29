@@ -1,0 +1,38 @@
+/* هوية الجمعية التاريخية العُمانية: أبيض، أسود، برتقالي الشعار */
+:root{
+  --paper:#ffffff; --surface:#f6f4f1; --ink:#151515; --muted:#67625b; --line:#e6e1da;
+  --orange:#ee842a; --orange-ink:#b0540b; --orange-soft:#fdf0e3; --on-orange:#151515;
+  --display:"Noto Kufi Arabic","Segoe UI",Tahoma,sans-serif;
+  --body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  --read:"Noto Naskh Arabic","Amiri","Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#131211; --surface:#1c1a18; --ink:#f2eee6; --muted:#a69f95; --line:#2f2b27;
+  --orange:#f0913f; --orange-ink:#f5a660; --orange-soft:#2b2016; --on-orange:#151515; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#131211; --surface:#1c1a18; --ink:#f2eee6; --muted:#a69f95; --line:#2f2b27;
+  --orange:#f0913f; --orange-ink:#f5a660; --orange-soft:#2b2016; --on-orange:#151515; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
+a{color:var(--orange-ink)}
+:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+
+/* brand bar */
+.ohs-bar{max-width:1100px;margin:0 auto 22px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;padding-block:14px;border-bottom:1px solid var(--line)}
+.ohs-id{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.ohs-id img{height:44px;width:auto;display:block}
+.ohs-id b{display:block;font-family:var(--display);font-weight:700;font-size:15.5px;line-height:1.35}
+.ohs-id small{display:block;font-size:10.5px;letter-spacing:.06em;color:var(--muted);direction:ltr;text-align:right;text-transform:uppercase}
+.ohs-nav{display:flex;flex-wrap:wrap;gap:4px}
+.ohs-nav a{font-size:13.5px;text-decoration:none;color:var(--ink);padding:6px 12px;border-radius:999px;border:1px solid transparent}
+.ohs-nav a:hover{border-color:var(--line)}
+.ohs-nav a[aria-current="page"]{background:var(--ink);color:var(--paper)}
+.logo-dark{display:none!important}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo-light{display:none!important}:root:not([data-theme="light"]) .logo-dark{display:block!important}}
+:root[data-theme="dark"] .logo-light{display:none!important}
+:root[data-theme="dark"] .logo-dark{display:block!important}
+.ohs-foot{max-width:1100px;margin:28px auto 0;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between}

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<meta property="og:title" content="الجمعية التاريخية العُمانية">
+<meta property="og:image" content="assets/og.png">
+<meta name="theme-color" content="#ee842a">
+<title>الجمعية التاريخية العُمانية</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;600&family=IBM+Plex+Mono&display=swap">
+<style>
+/* هوية الجمعية التاريخية العُمانية: أبيض، أسود، برتقالي الشعار */
+:root{
+  --paper:#ffffff; --surface:#f6f4f1; --ink:#151515; --muted:#67625b; --line:#e6e1da;
+  --orange:#ee842a; --orange-ink:#b0540b; --orange-soft:#fdf0e3; --on-orange:#151515;
+  --display:"Noto Kufi Arabic","Segoe UI",Tahoma,sans-serif;
+  --body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  --read:"Noto Naskh Arabic","Amiri","Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#131211; --surface:#1c1a18; --ink:#f2eee6; --muted:#a69f95; --line:#2f2b27;
+  --orange:#f0913f; --orange-ink:#f5a660; --orange-soft:#2b2016; --on-orange:#151515; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#131211; --surface:#1c1a18; --ink:#f2eee6; --muted:#a69f95; --line:#2f2b27;
+  --orange:#f0913f; --orange-ink:#f5a660; --orange-soft:#2b2016; --on-orange:#151515; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
+a{color:var(--orange-ink)}
+:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+
+/* brand bar */
+.ohs-bar{max-width:1100px;margin:0 auto 22px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;padding-block:14px;border-bottom:1px solid var(--line)}
+.ohs-id{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.ohs-id img{height:44px;width:auto;display:block}
+.ohs-id b{display:block;font-family:var(--display);font-weight:700;font-size:15.5px;line-height:1.35}
+.ohs-id small{display:block;font-size:10.5px;letter-spacing:.06em;color:var(--muted);direction:ltr;text-align:right;text-transform:uppercase}
+.ohs-nav{display:flex;flex-wrap:wrap;gap:4px}
+.ohs-nav a{font-size:13.5px;text-decoration:none;color:var(--ink);padding:6px 12px;border-radius:999px;border:1px solid transparent}
+.ohs-nav a:hover{border-color:var(--line)}
+.ohs-nav a[aria-current="page"]{background:var(--ink);color:var(--paper)}
+.logo-dark{display:none!important}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo-light{display:none!important}:root:not([data-theme="light"]) .logo-dark{display:block!important}}
+:root[data-theme="dark"] .logo-light{display:none!important}
+:root[data-theme="dark"] .logo-dark{display:block!important}
+.ohs-foot{max-width:1100px;margin:28px auto 0;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between}
+
+</style>
+<style>
+/* Layout: the society's front door — full logo, a short statement, three project doors */
+.home{max-width:1100px;margin:0 auto;display:grid;gap:34px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:28px;align-items:center;padding-block:10px 6px}
+@media (max-width:760px){.hero{grid-template-columns:1fr;text-align:center}}
+.hero img{width:min(340px,80%);height:auto;margin-inline:auto}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,6vw,48px);line-height:1.3;margin:0;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--orange-ink)}
+.hero p{color:var(--muted);max-width:52ch;margin:10px 0 0;font-size:16px}
+@media (max-width:760px){.hero p{margin-inline:auto}}
+.doors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:860px){.doors{grid-template-columns:1fr}}
+.door{display:grid;grid-template-rows:auto auto 1fr auto;gap:8px;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:20px;background:var(--paper);position:relative;overflow:hidden}
+.door::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--orange);transform:scaleX(.18);transform-origin:right;transition:transform .35s ease}
+.door:hover::before,.door:focus-visible::before{transform:scaleX(1)}
+@media (prefers-reduced-motion:reduce){.door::before{transition:none}}
+.door .k{font-size:12px;color:var(--orange-ink);font-weight:600;letter-spacing:.02em}
+.door h2{font-family:var(--display);font-weight:700;font-size:22px;margin:0;line-height:1.45}
+.door p{margin:0;color:var(--muted);font-size:14.5px}
+.door .go{font-size:14px;font-weight:600}
+.facts{display:flex;flex-wrap:wrap;gap:10px 28px;font-size:13px;color:var(--muted);border-block:1px solid var(--line);padding-block:14px}
+.facts b{font-family:var(--display);font-size:24px;color:var(--ink);display:block;line-height:1.2;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+
+<div dir="rtl" lang="ar">
+<header class="ohs-bar"><a class="ohs-id" href="index.html"><img class="logo-light" src="assets/logo-mark-light.png" alt="" height="44"><img class="logo-dark" src="assets/logo-mark-dark.png" alt="" height="44"><span><b>الجمعية التاريخية العُمانية</b><small>The Historical Association of Oman</small></span></a><nav class="ohs-nav" aria-label="مشاريع الجمعية"><a href="index.html" aria-current="page">الرئيسية</a><a href="majlis.html">مجلس التاريخ</a><a href="on-this-day.html">حدث في مثل هذا اليوم</a><a href="oral-history.html">الذاكرة الصوتية</a></nav></header>
+<main class="home">
+  <section class="hero">
+    <img class="logo-light" src="assets/logo-full-light.png" alt="شعار الجمعية التاريخية العُمانية">
+    <img class="logo-dark" src="assets/logo-full-dark.png" alt="شعار الجمعية التاريخية العُمانية">
+    <div>
+      <h1>تاريخ عُمان، <em>رقمياً</em></h1>
+      <p>مشاريع تفاعلية من الجمعية التاريخية العُمانية تقرّب تاريخ عُمان من الطلاب ومحبي التاريخ: حوار مع الأعلام، وتقويم للأحداث، وأرشيف لأصوات كبار السن.</p>
+    </div>
+  </section>
+  <section class="doors" aria-label="المشاريع">
+    <a class="door" href="majlis.html"><span class="k">حوار تعليمي</span><h2>مجلس التاريخ العُماني</h2><p>أكثر من مئة علَم من الأئمة والسلاطين والعلماء والشعراء والعالمات، وأحداث عُمان الكبرى من مجان إلى اليوم.</p><span class="go">ادخل المجلس ←</span></a>
+    <a class="door" href="on-this-day.html"><span class="k">تقويم</span><h2>حدث في مثل هذا اليوم</h2><p>محطات مؤرخة باليوم مع التاريخ الهجري، وبطاقة جاهزة للنشر على حسابات الجمعية.</p><span class="go">افتح التقويم ←</span></a>
+    <a class="door" href="oral-history.html"><span class="k">أرشيف صوتي</span><h2>ذاكرة عُمان الصوتية</h2><p>حكايات كبار السن بأصواتهم ونصوصها، مرتبة حسب المحافظة والموضوع.</p><span class="go">استمع للأرشيف ←</span></a>
+  </section>
+  <section class="facts">
+    <div><b>103</b>علَماً عُمانياً</div>
+    <div><b>20</b>من العالمات والرائدات</div>
+    <div><b>42</b>حدثاً في المجلس</div>
+    <div><b>7</b>عصور من التاريخ</div>
+  </section>
+</main>
+<footer class="ohs-foot"><span>الجمعية التاريخية العُمانية · مشاريع رقمية تعليمية</span><span>التواريخ والمعلومات قابلة للمراجعة، ويُرحَّب بالتصويب.</span></footer>
+</div>
+
+</body>
+</html>

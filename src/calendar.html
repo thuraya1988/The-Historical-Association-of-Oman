@@ -1,0 +1,195 @@
+<title>تقويم عُمان التاريخي</title>
+{{HEAD}}
+<style>
+/* Layout: a tear-off wall calendar leaf beside the upcoming list, then a 12-month index */
+.wrap{max-width:1100px;margin:0 auto;display:grid;gap:28px}
+.intro h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,5.5vw,42px);line-height:1.3;margin:0;text-wrap:balance}
+.intro p{color:var(--muted);margin:4px 0 0;max-width:60ch}
+.stage{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:760px){.stage{grid-template-columns:1fr}}
+.leaf{background:var(--paper);border:1px solid var(--line);border-radius:6px;overflow:hidden;box-shadow:0 18px 34px -24px rgba(0,0,0,.45)}
+.bind{height:40px;background:var(--orange);position:relative;display:flex;align-items:center;justify-content:space-between;padding:0 16px;color:var(--on-orange);font-size:13px;font-weight:500}
+.bind::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:10px;background:radial-gradient(circle at 7px 5px,var(--paper) 3px,transparent 3.5px) 0 0/14px 10px repeat-x}
+.leafbody{padding:26px 22px 20px;display:grid;gap:8px;text-align:center}
+.dayno{font-family:var(--display);font-weight:700;font-size:clamp(84px,19vw,124px);line-height:1;color:var(--orange-ink);font-variant-numeric:tabular-nums}
+.monthline{font-family:var(--display);font-weight:500;font-size:23px}
+.hijri{font-size:13px;color:var(--muted)}
+.year{justify-self:center;font-family:var(--display);font-weight:700;font-size:19px;border-block:1px solid var(--line);padding:2px 18px;font-variant-numeric:tabular-nums}
+.ltitle{font-family:var(--display);font-weight:700;font-size:clamp(20px,4.2vw,25px);line-height:1.6;margin:6px 0 0;text-wrap:balance}
+.lbody{margin:0 auto;max-width:44ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-size:12.5px;color:var(--muted)}
+.pill{background:var(--surface);border-radius:999px;padding:2px 10px}
+.pill.warn{background:var(--orange-soft);color:var(--orange-ink)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:14px 16px 16px;border-top:1px dashed var(--line)}
+button{font:inherit;font-size:14px;border-radius:6px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:8px 14px;cursor:pointer;min-height:40px}
+button:hover{border-color:var(--muted)}
+button.primary{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.toast{min-height:22px;font-size:13px;color:var(--orange-ink);text-align:center;padding-bottom:8px}
+.side{display:grid;gap:12px}
+.side h2,.index h2{font-family:var(--display);font-weight:700;font-size:20px;margin:0}
+.note{font-size:13px;color:var(--muted);background:var(--surface);border-radius:6px;padding:8px 12px}
+.list{display:grid;border-top:1px solid var(--line)}
+.ev{display:grid;grid-template-columns:62px minmax(0,1fr);gap:12px;align-items:baseline;padding:11px 4px;border:0;border-bottom:1px solid var(--line);background:none;text-align:right;color:inherit;font:inherit;width:100%;border-radius:0;cursor:pointer;min-height:0}
+.ev:hover,.ev[aria-current="true"]{background:var(--surface)}
+.ev .d{font-family:var(--display);font-weight:700;font-size:19px;color:var(--orange-ink);font-variant-numeric:tabular-nums;line-height:1.3}
+.ev .d small{display:block;font-family:var(--body);font-weight:400;font-size:11px;color:var(--muted)}
+.ev .t{font-weight:500;line-height:1.55}
+.ev .y{font-size:12.5px;color:var(--muted)}
+.index{display:grid;gap:12px}
+.mtabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.mtab{flex:0 0 auto;font-size:13.5px;padding:6px 12px;border-radius:999px;min-height:36px}
+.mtab[aria-selected="true"]{background:var(--orange);border-color:var(--orange);color:var(--on-orange)}
+.mtab .n{font-size:11px;opacity:.7;margin-inline-start:4px}
+.empty{color:var(--muted);padding:12px 4px}
+@media (prefers-reduced-motion:no-preference){.leaf.flip{animation:flip .45s ease}@keyframes flip{from{transform:translateY(-6px);opacity:.4}to{transform:none;opacity:1}}}
+</style>
+<div dir="rtl" lang="ar">
+{{BAR}}
+<div class="wrap">
+  <section class="intro">
+    <h1>حدث في مثل هذا اليوم</h1>
+    <p>محطات من تاريخ عُمان مؤرخة باليوم، ببطاقة جاهزة للنشر على حسابات الجمعية.</p>
+  </section>
+  <section class="stage">
+    <article class="leaf" id="leaf" aria-live="polite">
+      <div class="bind"><span>الجمعية التاريخية العُمانية</span><span id="bindR"></span></div>
+      <div class="leafbody">
+        <div class="dayno" id="dayNo">—</div>
+        <div class="monthline" id="monthLine"></div>
+        <div class="hijri" id="hijri"></div>
+        <div class="year" id="yearLine"></div>
+        <h2 class="ltitle" id="lTitle"></h2>
+        <p class="lbody" id="lBody"></p>
+        <div class="meta" id="lMeta"></div>
+      </div>
+      <div class="actions">
+        <button id="prevBtn" type="button">→ السابق</button>
+        <button id="nextBtn" type="button">التالي ←</button>
+        <button id="copyBtn" type="button">نسخ نص المنشور</button>
+        <button id="saveBtn" class="primary" type="button">حفظ البطاقة صورة</button>
+      </div>
+      <div class="toast" id="toast" role="status"></div>
+    </article>
+    <aside class="side">
+      <div class="note" id="todayNote"></div>
+      <h2>القادم في التقويم</h2>
+      <div class="list" id="upList"></div>
+    </aside>
+  </section>
+  <section class="index">
+    <h2>الأحداث حسب الشهر</h2>
+    <div class="mtabs" id="mtabs" role="tablist" aria-label="الأشهر"></div>
+    <div class="list" id="monthList" role="tabpanel"></div>
+  </section>
+</div>
+{{FOOT}}
+</div>
+<script>
+const LOGO_URI="{{LOGO_FULL_LIGHT}}";
+const MONTHS=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+const EVENTS=[
+ {m:1,d:10,y:2020,tag:"الحكم",t:"رحيل السلطان قابوس بن سعيد",b:"تُوفي السلطان قابوس بن سعيد بعد قرابة خمسين عاماً في الحكم، قاد خلالها عُمان في مرحلة النهضة الحديثة."},
+ {m:1,d:11,y:2020,tag:"الحكم",t:"تولّي جلالة السلطان هيثم بن طارق الحكم",b:"أدّى جلالة السلطان هيثم بن طارق اليمين سلطاناً لعُمان، ويُحتفى بهذا اليوم ذكرى لتولّيه مقاليد الحكم."},
+ {m:1,d:11,y:2025,tag:"الدولة",t:"اعتماد 20 نوفمبر يوماً وطنياً",b:"في خطابه بذكرى تولّيه الحكم، أعلن جلالة السلطان هيثم بن طارق اعتماد العشرين من نوفمبر يوماً وطنياً، ربطاً له بقيام دولة البوسعيد عام 1744.",src:"صحيفة عُمان أوبزرفر"},
+ {m:1,d:null,y:1650,tag:"البرتغاليون",t:"نهاية الوجود البرتغالي في مسقط",b:"بعد حصار امتد من أواخر 1649، أنهى الإمام سلطان بن سيف اليعربي الوجود البرتغالي في مسقط مطلع عام 1650.",src:"اليوم غير محدد في المصادر المتاحة"},
+ {m:4,d:null,y:1962,tag:"النفط",t:"اكتشاف النفط بكميات تجارية في حقل جبال",b:"شهد أبريل 1962 أول اكتشاف تجاري للنفط في عُمان بحقل جبال، تلاه اكتشاف حقل فهود عام 1963.",src:"تاريخ شركة تنمية نفط عُمان"},
+ {m:4,d:30,y:1840,tag:"البحر والدبلوماسية",t:"«سلطانة» ترسو في نيويورك",b:"وصلت السفينة سلطانة إلى نيويورك تحمل أحمد بن النعمان الكعبي مبعوثاً من السيد سعيد بن سلطان، في واحدة من أوائل البعثات العربية إلى الولايات المتحدة."},
+ {m:5,d:25,y:1981,tag:"الخليج",t:"تأسيس مجلس التعاون الخليجي",b:"تأسس مجلس التعاون لدول الخليج العربية في أبوظبي، وكانت عُمان من دوله الست المؤسسة."},
+ {m:6,d:6,y:2007,tag:"الطبيعة",t:"إعصار جونو يضرب السواحل العُمانية",b:"وصل إعصار جونو إلى السواحل الشرقية لعُمان، وهو من أقوى الأعاصير المسجلة في بحر العرب، وخلّف أضراراً واسعة في مسقط والشرقية."},
+ {m:7,d:23,y:1970,tag:"الحكم",t:"يوم النهضة",b:"تولّى السلطان قابوس بن سعيد الحكم، فبدأت مرحلة تحديث شملت التعليم والصحة والبنية الأساسية في أنحاء عُمان."},
+ {m:7,d:27,y:1967,tag:"النفط",t:"أول شحنة نفط عُمانية للتصدير",b:"صُدّرت أول شحنة من النفط العُماني عبر ميناء الفحل، لتبدأ مرحلة اقتصادية جديدة.",src:"تاريخ شركة تنمية نفط عُمان"},
+ {m:9,d:21,y:1833,tag:"البحر والدبلوماسية",t:"معاهدة الصداقة والتجارة مع الولايات المتحدة",b:"وقّع السيد سعيد بن سلطان في مسقط معاهدة صداقة وتجارة مع الولايات المتحدة، وهي من أقدم معاهدات واشنطن مع دولة عربية."},
+ {m:9,d:25,y:1920,tag:"الدولة",t:"اتفاقية السيب",b:"وُقّعت اتفاقية السيب التي نظّمت العلاقة بين سلطنة مسقط والإمامة في الداخل لعقود تالية."},
+ {m:9,d:29,y:1971,tag:"العلاقات الدولية",t:"عُمان في جامعة الدول العربية",b:"انضمت سلطنة عُمان إلى جامعة الدول العربية.",src:"وزارة الخارجية العُمانية"},
+ {m:10,d:7,y:1971,tag:"العلاقات الدولية",t:"عُمان عضواً في الأمم المتحدة",b:"انضمت سلطنة عُمان إلى الأمم المتحدة، العضو الثامن والعشرون بعد المائة في المنظمة.",src:"وزارة الخارجية العُمانية"},
+ {m:10,d:12,y:1798,tag:"البحر والدبلوماسية",t:"القولنامة العُمانية البريطانية",b:"عقد السيد سلطان بن أحمد مع شركة الهند الشرقية البريطانية اتفاقية «القولنامة»، من أقدم الاتفاقيات بين عُمان وبريطانيا.",check:true},
+ {m:10,d:12,y:2011,tag:"الثقافة",t:"افتتاح دار الأوبرا السلطانية مسقط",b:"افتُتحت دار الأوبرا السلطانية بعرض أوبرا «توراندوت» بقيادة بلاسيدو دومينغو، لتكون أول دار أوبرا في منطقة الخليج."},
+ {m:10,d:19,y:1856,tag:"الحكم",t:"رحيل السيد سعيد بن سلطان",b:"تُوفي السيد سعيد بن سلطان في عرض البحر خلال رحلته من مسقط إلى زنجبار، بعد حكم قارب خمسين عاماً امتد فيه النفوذ العُماني إلى شرق أفريقيا.",check:true},
+ {m:11,d:6,y:1996,tag:"الدولة",t:"صدور النظام الأساسي للدولة",b:"صدر النظام الأساسي للدولة بالمرسوم السلطاني رقم 101/96، ليكون الوثيقة الدستورية الأولى في عُمان."},
+ {m:11,d:18,y:1940,tag:"الحكم",t:"ميلاد السلطان قابوس بن سعيد",b:"وُلد السلطان قابوس بن سعيد في صلالة بمحافظة ظفار."},
+ {m:11,d:20,y:1744,tag:"الدولة",t:"اليوم الوطني لسلطنة عُمان",b:"ذكرى قيام دولة البوسعيد على يد الإمام أحمد بن سعيد الذي وحّد عُمان عام 1744.",src:"صحيفة عُمان أوبزرفر"},
+ {m:12,d:23,y:1839,tag:"البحر والدبلوماسية",t:"«سلطانة» تُبحر نحو أمريكا",b:"أبحرت السفينة سلطانة من عُمان في رحلة طويلة انتهت في نيويورك في أبريل 1840."}
+];
+EVENTS.sort((a,b)=>a.m-b.m||((a.d??99)-(b.d??99))||a.y-b.y);
+const $=id=>document.getElementById(id);
+const now=new Date();const tm=now.getMonth()+1,td=now.getDate();
+let idx=0,monthSel=tm;
+function hijriOf(e){if(!e.d)return"";try{const cal=e.y>=1937?"islamic-umalqura":"islamic-civil";
+  return(e.y<1937?"≈ ":"")+new Intl.DateTimeFormat("ar-SA-u-ca-"+cal+"-nu-latn",{day:"numeric",month:"long",year:"numeric"}).format(new Date(e.y,e.m-1,e.d,12))}catch(_){return""}}
+const key=e=>e.m*100+(e.d??32);
+function upcomingIndex(){const k=tm*100+td;let i=EVENTS.findIndex(e=>e.d&&key(e)>=k);return i<0?EVENTS.findIndex(e=>e.d):i}
+const dateLabel=e=>e.d?`${e.d} ${MONTHS[e.m-1]}`:`${MONTHS[e.m-1]} (اليوم غير محدد)`;
+function renderLeaf(anim){
+  const e=EVENTS[idx];
+  $("dayNo").textContent=e.d??"؟";$("monthLine").textContent=MONTHS[e.m-1];$("hijri").textContent=hijriOf(e);
+  $("yearLine").textContent=e.y;$("lTitle").textContent=e.t;$("lBody").textContent=e.b;$("bindR").textContent=e.tag;
+  const meta=$("lMeta");meta.textContent="";
+  const add=(t,c)=>{const s=document.createElement("span");s.className="pill"+(c?" "+c:"");s.textContent=t;meta.append(s)};
+  if(e.d&&e.m===tm&&e.d===td)add("حدث اليوم");
+  if(e.src)add("المصدر: "+e.src);
+  if(e.check||!e.d)add("يُستحسن التدقيق قبل النشر","warn");
+  const leaf=$("leaf");if(anim){leaf.classList.remove("flip");void leaf.offsetWidth;leaf.classList.add("flip")}
+  document.querySelectorAll(".ev").forEach(b=>b.setAttribute("aria-current",b.dataset.i==idx?"true":"false"));
+}
+function evButton(e,i){
+  const b=document.createElement("button");b.type="button";b.className="ev";b.dataset.i=i;
+  const d=document.createElement("div");d.className="d";d.textContent=e.d??"—";const sm=document.createElement("small");sm.textContent=MONTHS[e.m-1];d.append(sm);
+  const r=document.createElement("div");const t=document.createElement("div");t.className="t";t.textContent=e.t;
+  const y=document.createElement("div");y.className="y";y.textContent=`${e.y} · ${e.tag}`;r.append(t,y);b.append(d,r);
+  b.onclick=()=>{idx=i;renderLeaf(true);$("leaf").scrollIntoView({block:"nearest",behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})};
+  return b;
+}
+function renderUpcoming(){const l=$("upList");l.textContent="";const s=upcomingIndex();const out=[];
+  for(let n=0;n<EVENTS.length&&out.length<5;n++){const i=(s+n)%EVENTS.length;if(EVENTS[i].d)out.push(i)}out.forEach(i=>l.append(evButton(EVENTS[i],i)))}
+function renderTabs(){const tabs=$("mtabs");tabs.textContent="";
+  MONTHS.forEach((mn,mi)=>{const c=EVENTS.filter(e=>e.m===mi+1).length;const b=document.createElement("button");b.type="button";b.className="mtab";
+    b.setAttribute("role","tab");b.setAttribute("aria-selected",String(monthSel===mi+1));b.id="mtab-"+(mi+1);b.textContent=mn;
+    const s=document.createElement("span");s.className="n";s.textContent=c;b.append(s);b.onclick=()=>{monthSel=mi+1;renderTabs();renderMonth()};tabs.append(b)});
+  $("mtab-"+monthSel)?.scrollIntoView({block:"nearest",inline:"center"})}
+function renderMonth(){const l=$("monthList");l.textContent="";const items=EVENTS.map((e,i)=>[e,i]).filter(([e])=>e.m===monthSel);
+  if(!items.length){const p=document.createElement("div");p.className="empty";p.textContent=`لا أحداث مُدرجة في ${MONTHS[monthSel-1]} بعد.`;l.append(p);return}
+  items.forEach(([e,i])=>l.append(evButton(e,i)))}
+const postText=()=>{const e=EVENTS[idx];return `حدث في مثل هذا اليوم\n${dateLabel(e)} ${e.y}\n\n${e.t}\n${e.b}\n\nالجمعية التاريخية العُمانية\n#حدث_في_مثل_هذا_اليوم #تاريخ_عمان`};
+function toast(m){$("toast").textContent=m;clearTimeout(toast.t);toast.t=setTimeout(()=>$("toast").textContent="",3500)}
+$("prevBtn").onclick=()=>{idx=(idx-1+EVENTS.length)%EVENTS.length;renderLeaf(true)};
+$("nextBtn").onclick=()=>{idx=(idx+1)%EVENTS.length;renderLeaf(true)};
+$("copyBtn").onclick=async()=>{const txt=postText();
+  try{await navigator.clipboard.writeText(txt);toast("نُسخ نص المنشور")}
+  catch(_){const ta=document.createElement("textarea");ta.value=txt;ta.style.cssText="position:fixed;opacity:0";document.body.append(ta);ta.select();
+    try{document.execCommand("copy");toast("نُسخ نص المنشور")}catch(__){toast("تعذّر النسخ، حدّد النص يدوياً")}ta.remove()}};
+function wrapLines(x,text,w){const ws=text.split(/\s+/);const out=[];let l="";for(const t of ws){const s=l?l+" "+t:t;if(x.measureText(s).width>w&&l){out.push(l);l=t}else l=s}if(l)out.push(l);return out}
+const loadImg=src=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src});
+async function drawCard(){
+  const e=EVENTS[idx];const W=1080,H=1350;
+  try{await Promise.all([document.fonts.load('700 200px "Noto Kufi Arabic"'),document.fonts.load('500 40px "Noto Kufi Arabic"'),document.fonts.load('400 30px "IBM Plex Sans Arabic"')])}catch(_){}
+  const logo=await loadImg(LOGO_URI);
+  const c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");x.direction="rtl";x.textAlign="center";
+  x.fillStyle="#ffffff";x.fillRect(0,0,W,H);
+  x.fillStyle="#ee842a";x.fillRect(0,0,W,110);
+  x.fillStyle="#ffffff";for(let p=14;p<W;p+=28){x.beginPath();x.arc(p,114,7,0,Math.PI*2);x.fill()}
+  x.fillStyle="#151515";x.font='700 36px "Noto Kufi Arabic", sans-serif';x.fillText("حدث في مثل هذا اليوم",W/2,70);
+  x.fillStyle="#b0540b";x.font='700 260px "Noto Kufi Arabic", sans-serif';x.fillText(String(e.d??"؟"),W/2,440);
+  x.fillStyle="#151515";x.font='500 58px "Noto Kufi Arabic", sans-serif';x.fillText(MONTHS[e.m-1],W/2,540);
+  const hj=hijriOf(e);if(hj){x.fillStyle="#67625b";x.font='400 30px "IBM Plex Sans Arabic", sans-serif';x.fillText(hj,W/2,595)}
+  x.strokeStyle="#e6e1da";x.lineWidth=2;x.beginPath();x.moveTo(390,630);x.lineTo(690,630);x.moveTo(390,698);x.lineTo(690,698);x.stroke();
+  x.fillStyle="#151515";x.font='700 46px "Noto Kufi Arabic", sans-serif';x.fillText(String(e.y),W/2,682);
+  x.font='700 50px "Noto Kufi Arabic", sans-serif';let yy=790;for(const l of wrapLines(x,e.t,900)){x.fillText(l,W/2,yy);yy+=78}
+  x.font='400 34px "IBM Plex Sans Arabic", sans-serif';x.fillStyle="#3b3833";yy+=10;for(const l of wrapLines(x,e.b,860).slice(0,5)){x.fillText(l,W/2,yy);yy+=56}
+  x.fillStyle="#f6f4f1";x.fillRect(0,H-150,W,150);
+  if(logo){const lh=110,lw=logo.width*lh/logo.height;x.drawImage(logo,(W-lw)/2,H-130,lw,lh)}
+  return new Promise(r=>c.toBlob(r,"image/png"));
+}
+let downloads=null;
+(async()=>{try{downloads=await window.claude?.use?.("downloads")}catch(_){downloads=null}})();
+$("saveBtn").onclick=async()=>{
+  const e=EVENTS[idx];const name=`ohs-on-this-day-${e.y}-${String(e.m).padStart(2,"0")}${e.d?"-"+String(e.d).padStart(2,"0"):""}.png`;
+  try{const blob=await drawCard();
+    if(downloads){await downloads.save({filename:name,data:blob});toast("حُفظت البطاقة");return}
+    if(window.claude){toast("الحفظ غير متاح في هذا العرض");return}
+    const u=URL.createObjectURL(blob);const a=document.createElement("a");a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast("حُفظت البطاقة");
+  }catch(err){toast(err&&err.code==="declined"?"أُلغي الحفظ":"تعذّر حفظ البطاقة")}
+};
+const todays=EVENTS.findIndex(e=>e.m===tm&&e.d===td);idx=todays>=0?todays:upcomingIndex();
+$("todayNote").textContent=todays>=0?"في مثل هذا اليوم من تاريخ عُمان:":`لا يوجد حدث مُدرج ليوم ${td} ${MONTHS[tm-1]}، فتعرض البطاقة أقرب حدث قادم.`;
+renderUpcoming();renderTabs();renderMonth();renderLeaf(false);
+</script>

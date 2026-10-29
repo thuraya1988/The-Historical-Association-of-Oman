@@ -1,0 +1,277 @@
+<title>مجلس التاريخ العُماني</title>
+{{HEAD}}
+<style>
+/* Layout: the majlis — guest roll by era along one wall, the conversation in the centre */
+.app{max-width:1100px;margin:0 auto;display:grid;gap:16px}
+.top{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:end;justify-content:space-between}
+.top h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,5.5vw,40px);margin:0;line-height:1.3}
+.top p{margin:2px 0 0;color:var(--muted);font-size:14px;max-width:64ch}
+.counts{font-size:12.5px;color:var(--muted);display:flex;gap:18px}
+.counts b{font-family:var(--display);font-weight:700;font-size:22px;color:var(--ink);display:block;line-height:1.2;font-variant-numeric:tabular-nums}
+.counts div:first-child b{color:var(--orange-ink)}
+.layout{display:grid;grid-template-columns:340px minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.layout{grid-template-columns:1fr}}
+.roll{background:var(--paper);border:1px solid var(--line);border-radius:12px;display:grid;grid-template-rows:auto auto auto minmax(0,1fr);max-height:min(82vh,820px);overflow:hidden}
+@media (max-width:860px){.roll{max-height:440px}}
+.tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+.tab{font:inherit;font-size:14.5px;background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);padding:10px;cursor:pointer;min-height:46px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--orange);font-weight:600}
+.find{padding:10px 12px 6px}
+.find input{font:inherit;font-size:14px;width:100%;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);padding:8px 12px;min-height:40px}
+.filters{display:grid;gap:6px;padding:0 12px 8px}
+.chips{display:flex;gap:6px;overflow-x:auto}
+.chipf{flex:0 0 auto;font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);padding:4px 10px;cursor:pointer;min-height:32px}
+.chipf[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chipf.type[aria-pressed="true"]{background:var(--orange);color:var(--on-orange);border-color:var(--orange)}
+.items{overflow-y:auto;padding:2px 8px 10px;display:grid;gap:1px;align-content:start}
+.group{font-size:12px;color:var(--orange-ink);font-weight:600;padding:12px 6px 4px;display:flex;justify-content:space-between}
+.group span{color:var(--muted);font-weight:400}
+.guest{display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;align-items:center;text-align:right;padding:6px 8px;border:1px solid transparent;border-radius:9px;background:none;color:inherit;font:inherit;cursor:pointer;width:100%}
+.guest:hover{background:var(--surface)}
+.guest[aria-pressed="true"]{border-color:var(--orange);background:var(--orange-soft)}
+.gname{font-family:var(--display);font-weight:500;font-size:14.5px;line-height:1.5}
+.gera{font-size:11.5px;color:var(--muted);line-height:1.45}
+.tagw{font-size:10.5px;color:var(--orange-ink);border:1px solid var(--orange);border-radius:4px;padding:0 5px;margin-inline-start:4px;white-space:nowrap}
+.event{display:grid;grid-template-columns:78px minmax(0,1fr);gap:10px;text-align:right;padding:8px;border:0;border-bottom:1px solid var(--line);background:none;color:inherit;font:inherit;cursor:pointer;width:100%}
+.event:hover{background:var(--surface)}
+.event .when{font-size:12px;color:var(--orange-ink);font-weight:600;line-height:1.5}
+.event .what{font-size:14px;line-height:1.55}
+.custom{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;padding:10px 6px 4px}
+.custom input{font:inherit;font-size:13.5px;border:1px dashed var(--orange);border-radius:8px;background:var(--surface);color:var(--ink);padding:7px 10px;min-height:38px;width:100%}
+.none{color:var(--muted);font-size:13.5px;padding:12px 8px}
+.med{width:40px;height:40px;position:relative;display:grid;place-items:center;flex:0 0 auto}
+.med svg{position:absolute;inset:0;width:100%;height:100%}
+.med span{position:relative;font-family:var(--display);font-weight:700;font-size:15px;color:var(--ink)}
+.room{background:var(--paper);border:1px solid var(--line);border-radius:12px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;min-height:580px;max-height:min(82vh,820px);overflow:hidden}
+.who{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap;background:var(--surface)}
+.who .med{width:54px;height:54px}.who .med span{font-size:20px}
+.who h2{font-family:var(--display);font-weight:700;margin:0;font-size:19px;line-height:1.45}
+.who p{margin:0;font-size:12.5px;color:var(--muted)}
+.tools{margin-inline-start:auto;display:flex;gap:6px}
+.log{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+.bio{font-size:14px;line-height:1.85;background:var(--surface);border-radius:10px;padding:10px 14px;border-inline-start:4px solid var(--orange)}
+.bio b{display:block;font-family:var(--display);font-size:12px;color:var(--orange-ink);margin-bottom:2px}
+.msg{max-width:min(660px,94%);font-family:var(--read);font-size:16.5px;line-height:1.95;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.them{align-self:flex-start;border-inline-start:3px solid var(--ink);padding:2px 14px 2px 4px}
+.msg.me{align-self:flex-end;background:var(--orange-soft);border-radius:12px 12px 2px 12px;padding:8px 14px;font-family:var(--body);font-size:15px;line-height:1.7}
+.msg .by{display:block;font-family:var(--body);font-size:12px;color:var(--orange-ink);margin-bottom:2px;font-weight:600}
+.starters{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:13.5px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);padding:6px 12px;cursor:pointer;text-align:right}
+.chip:hover{border-color:var(--orange)}
+.compose{border-top:1px solid var(--line);padding:12px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end}
+textarea{font:inherit;font-size:15px;resize:none;min-height:46px;max-height:140px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface);color:var(--ink);width:100%}
+button.act{font:inherit;font-size:14.5px;border-radius:10px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);padding:10px 18px;cursor:pointer;min-height:46px}
+button.ghost{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);padding:6px 10px;cursor:pointer;min-height:36px}
+.status{grid-column:1/-1;font-size:12.5px;color:var(--muted);min-height:18px}
+.note{font-size:12.5px;color:var(--muted);margin:0}
+</style>
+<div dir="rtl" lang="ar">
+{{BAR}}
+<div class="app">
+  <section class="top">
+    <div>
+      <h1>مجلس التاريخ العُماني</h1>
+      <p>اجلس مع أعلام عُمان من مجان إلى اليوم: الأئمة والسلاطين والعلماء والشعراء والعالمات، أو اسأل المؤرخ عن أي حدث. الإجابات محاكاة تعليمية بالذكاء الاصطناعي تلتزم بالمصادر وتنبّه إلى مواضع الخلاف.</p>
+    </div>
+    <div class="counts"><div><b id="nFig">0</b>علَماً</div><div><b id="nW">0</b>امرأة</div><div><b id="nEv">0</b>حدثاً</div></div>
+  </section>
+  <div class="layout">
+    <nav class="roll" aria-label="الأعلام والأحداث">
+      <div class="tabs" role="tablist">
+        <button class="tab" id="tabF" role="tab" aria-selected="true" type="button">الأعلام</button>
+        <button class="tab" id="tabE" role="tab" aria-selected="false" type="button">الأحداث</button>
+      </div>
+      <div class="find"><input id="find" type="search" placeholder="ابحث: اليعاربة، سمائل، الطب، زنجبار…" aria-label="بحث"></div>
+      <div class="filters">
+        <div class="chips" id="types" role="group" aria-label="التصنيف"></div>
+        <div class="chips" id="eras" role="group" aria-label="العصور"></div>
+      </div>
+      <div class="items" id="items"></div>
+    </nav>
+    <section class="room" aria-label="المحادثة">
+      <div class="who">
+        <div class="med" id="whoMed"></div>
+        <div style="min-width:0;flex:1 1 160px"><h2 id="whoName"></h2><p id="whoEra"></p></div>
+        <div class="tools">
+          <button class="ghost" id="copyBtn" type="button">نسخ الحوار</button>
+          <button class="ghost" id="resetBtn" type="button">بدء من جديد</button>
+        </div>
+      </div>
+      <div class="log" id="log" aria-live="polite"></div>
+      <form class="compose" id="form">
+        <textarea id="q" rows="1" placeholder="اكتب سؤالك هنا…" aria-label="سؤالك"></textarea>
+        <button class="act" id="sendBtn" type="submit">اسأل</button>
+        <div class="status" id="status" role="status"></div>
+      </form>
+    </section>
+  </div>
+  <p class="note">للمعلّمين: كل شخصية تعرف ما حدث حتى وفاتها فقط. من تُوفّي بعد 1970 من الحكام والأعلام يتحدث عنه «المؤرخ» ولا يُتقمّص دوره. التواريخ تقريبية وتختلف فيها المصادر، فيُنصح بمطابقة أي معلومة مهمة مع مرجع موثّق.</p>
+</div>
+{{FOOT}}
+</div>
+<script>
+{{FIGURES_JS}}
+const HISTORIAN={id:"historian",n:"المؤرخ",w:"دليل المجلس · كل العصور",historian:true,
+  b:"مؤرخ عُماني واسع الاطلاع يتحدث عن تاريخ عُمان كله من حضارة مجان إلى اليوم، ويستند إلى ما تقوله المصادر الموثوقة والدراسات الحديثة.",
+  hello:"أهلاً بك في مجلس الجمعية التاريخية العُمانية. أنا دليلك في تاريخ عُمان، من مجان وطريق اللبان إلى عُمان الحديثة. سلني عن أي حدث أو علَم أو مكان، وسأخبرك بما تقوله المصادر وأين يختلف المؤرخون.",
+  s:["من أين جاء اسم عُمان؟","ما الدول التي حكمت عُمان بالترتيب؟","من هن أبرز العالمات العُمانيات؟"]};
+const STARTERS={"حكّام":["كيف وصلت إلى الحكم؟","ما أهم أحداث عهدك؟"],"علماء":["كيف طلبت العلم؟","ما أهم ما تركته من علم؟"],"شعراء وأدباء":["ما الذي ألهمك؟","حدّثني عن أدبك"],"أطباء وملاحون":["كيف تعلمت صنعتك؟","ما أعجب ما مر بك؟"]};
+const STARTERS_H=["من هو؟ عرّفني به","ما أهم ما يُذكر عنه؟","ما الذي تختلف فيه المصادر؟"];
+function rules(f){
+ const base=`قواعد صارمة:
+- لا تختلق تواريخ أو أسماء أو أقوالاً منسوبة أو أحداثاً. إن لم تذكر المصادر أمراً فقل ذلك صراحة.
+- التواريخ في البطاقة تقريبية؛ إن اختلف المؤرخون أو كانت القصة مروية غير مؤكدة فقل ذلك واذكر الأقوال بإيجاز.
+- اعرض المسائل الخلافية بين المذاهب والقبائل والدول وبين الإمامة والسلطنة بحياد واحترام، ولا تُسئ إلى أحد.
+- لا تُفتِ في الدين، ولا تقتبس نصوصاً حرفياً إلا إن كنت متيقناً منها.
+- إن خرج السؤال عن التاريخ أو كان غير لائق، أعد الحوار بلطف إلى التاريخ.
+- عربية فصحى سهلة ودافئة تناسب طلاب المدارس (10 إلى 17 سنة) ومحبي التاريخ.
+- اجعل الإجابة بين 70 و160 كلمة، واختمها بسؤال قصير يشجع على المتابعة.
+- لا تستخدم Markdown ولا العناوين ولا القوائم النقطية.`;
+ if(f.historian) return `أنت «المؤرخ» في مجلس الجمعية التاريخية العُمانية، محاكاة تعليمية عن تاريخ عُمان. تتحدث بصفتك مؤرخاً مطلعاً، لا بلسان أي شخصية.
+${f.b}
+- تتحدث عن أي عصر، بما فيه العصر الحديث، بالحقائق الموثقة ومن دون آراء سياسية في الشؤون المعاصرة.
+- اذكر المصادر المعروفة حين تكون متأكداً منها (مثل تحفة الأعيان للسالمي، وكشف الغمة، والفتح المبين لابن رزيق)، ولا تخترع مراجع.
+${base}`;
+ if(f.h) return `أنت «المؤرخ» في مجلس الجمعية التاريخية العُمانية. السائل يسأل عن: ${f.n} (${f.w}).
+ما تعرفه: ${f.b}
+- تحدّث عنه بصيغة الغائب بصفتك المؤرخ، ولا تتقمص دوره أبداً، حتى لو طُلب منك.
+${base}`;
+ if(f.custom) return `أنت تؤدي دور شخصية تاريخية اسمها «${f.n}» في محاكاة تعليمية عن تاريخ عُمان.
+- إن لم تكن متأكداً أن هذا الاسم لشخصية تاريخية حقيقية مرتبطة بعُمان، فقل ذلك بلطف بصفتك «المؤرخ»، واقترح أقرب علَم معروف.
+- إن كان الاسم لشخص حي، أو لعلَم توفي بعد عام 1970، فلا تتقمص دوره: تحدث عنه بصفتك «المؤرخ» بالحقائق الثابتة فقط.
+- غير ذلك: تكلّم بصيغة المتكلم بلسان الشخصية، وعلمك يقف عند وفاتها.
+- إن سُئلت هل أنت الشخصية حقاً، فأجب أنك محاكاة تعليمية بالذكاء الاصطناعي.
+${base}`;
+ return `أنت تؤدي دور علَم من أعلام عُمان في محاكاة تعليمية للجمعية التاريخية العُمانية.
+الشخصية: ${f.n} (${f.w}).
+ما تعرفه عنها: ${f.b}
+- تكلّم بصيغة المتكلم بلسان الشخصية. إن لم تذكر المصادر أمراً عنك فقل مثلاً: «هذا مما لا يحفظه الرواة عني».
+- إن كانت البطاقة تقول إن المعلومات عنك قليلة، فاعترف بذلك بلسانك وتحدث عن عصرك العام بحذر.
+- علمك يقف عند وفاتك. إن سُئلت عما بعد زمنك فاشرح بلطف أنه بعد زمنك.
+- إن سُئلت هل أنت الشخصية حقاً، فأجب بوضوح أنك محاكاة تعليمية بالذكاء الاصطناعي.
+${base}`;
+}
+const $=id=>document.getElementById(id);
+const S={cur:HISTORIAN,turns:{},ctl:null,busy:false,tab:"f",era:null,type:null,find:""};
+let sample=null,sampleChecked=false;
+const eraOf=k=>ERAS.find(e=>e.k===k)||{};
+const strip=n=>n.replace(/^(الإمام|السيد|السيدة|السلطان|جلالة السلطان|الملكة|الشيخ|أبو|ابن|أئمة|ملوك)\s+/,"");
+function medallion(f){
+  const w=document.createElement("div");w.className="med";
+  w.innerHTML=`<svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="27" fill="${f.historian||f.h?"var(--ink)":"var(--orange-soft)"}" stroke="var(--orange)" stroke-width="3"/></svg>`;
+  const s=document.createElement("span");s.textContent=f.historian?"م":strip(f.n).charAt(0);if(f.historian||f.h)s.style.color="var(--paper)";w.append(s);return w;
+}
+const norm=s=>s.replace(/[ًٌٍَُِّْ]/g,"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي");
+function matches(t){const q=norm(S.find.trim());return !q||norm(t).includes(q)}
+function chips(){
+  const tb=$("types");tb.textContent="";
+  [null,...TYPES].forEach(t=>{if(S.tab==="e")return;const b=document.createElement("button");b.type="button";b.className="chipf type";b.textContent=t??"الكل";
+    b.setAttribute("aria-pressed",String(S.type===t));b.onclick=()=>{S.type=t;chips();renderItems()};tb.append(b)});
+  tb.hidden=S.tab==="e";
+  const eb=$("eras");eb.textContent="";
+  [{k:null,n:"كل العصور"},...ERAS].forEach(e=>{const b=document.createElement("button");b.type="button";b.className="chipf";b.textContent=e.n;
+    b.setAttribute("aria-pressed",String(S.era===e.k));b.onclick=()=>{S.era=e.k;chips();renderItems()};eb.append(b)});
+}
+function typeOk(f){return !S.type||(S.type==="نساء"?f.g==="f":f.t===S.type)}
+function guestBtn(f){
+  const b=document.createElement("button");b.type="button";b.className="guest";b.setAttribute("aria-pressed",String(S.cur.id===f.id));
+  const t=document.createElement("div");t.style.minWidth="0";
+  const n=document.createElement("div");n.className="gname";n.textContent=f.n;
+  if(f.h){const tg=document.createElement("span");tg.className="tagw";tg.textContent="يرويه المؤرخ";n.append(tg)}
+  const e=document.createElement("div");e.className="gera";e.textContent=f.w;t.append(n,e);b.append(medallion(f),t);
+  b.onclick=()=>select(f);return b;
+}
+function renderItems(){
+  const box=$("items");box.textContent="";
+  if(S.tab==="f"){
+    if(!S.era&&!S.type&&matches(HISTORIAN.n))box.append(guestBtn(HISTORIAN));
+    let any=false;
+    ERAS.forEach(er=>{
+      if(S.era&&S.era!==er.k)return;
+      const list=FIGURES.filter(f=>f.e===er.k&&typeOk(f)&&matches(f.n+" "+f.w+" "+f.b));
+      if(!list.length)return;any=true;
+      const g=document.createElement("div");g.className="group";g.textContent=er.n;const sp=document.createElement("span");sp.textContent=`${er.span} · ${list.length}`;g.append(sp);box.append(g);
+      list.forEach(f=>box.append(guestBtn(f)));
+    });
+    if(!any){const p=document.createElement("div");p.className="none";p.textContent="لا توجد بطاقة مطابقة. استضف العلَم بكتابة اسمه أدناه، أو اسأل المؤرخ.";box.append(p)}
+    const c=document.createElement("form");c.className="custom";
+    const i=document.createElement("input");i.id="customName";i.placeholder="استضف علَماً آخر بالاسم…";i.setAttribute("aria-label","اسم علَم آخر");if(!any)i.value=S.find.trim();
+    const go=document.createElement("button");go.type="submit";go.className="ghost";go.textContent="استضافة";c.append(i,go);
+    c.onsubmit=ev=>{ev.preventDefault();const n=i.value.trim();if(!n)return;
+      select({id:"custom:"+n,n,w:"ضيف من اختيارك",custom:true,b:"",hello:`أهلاً بك. استضفتني باسم «${n}». سلني عن حياتي وزمني، وإن لم أكن علَماً معروفاً في تاريخ عُمان فسأخبرك بذلك بصراحة.`})};
+    box.append(c);
+  }else{
+    let any=false;
+    ERAS.forEach(er=>{
+      if(S.era&&S.era!==er.k)return;
+      const list=EVENTS.filter(e=>e.e===er.k&&matches(e.t+" "+e.w));if(!list.length)return;any=true;
+      const g=document.createElement("div");g.className="group";g.textContent=er.n;const sp=document.createElement("span");sp.textContent=er.span;g.append(sp);box.append(g);
+      list.forEach(ev=>{const b=document.createElement("button");b.type="button";b.className="event";
+        const w=document.createElement("div");w.className="when";w.textContent=ev.w;const t=document.createElement("div");t.className="what";t.textContent=ev.t;b.append(w,t);
+        b.onclick=()=>{select(HISTORIAN);ask(`حدّثني عن: ${ev.t} (${ev.w}).`)};box.append(b)});
+    });
+    if(!any){const p=document.createElement("div");p.className="none";p.textContent="لا يوجد حدث مطابق. اكتب سؤالك للمؤرخ مباشرة.";box.append(p)}
+  }
+}
+function select(f){
+  if(S.busy)S.ctl?.abort();S.cur=f;renderItems();renderRoom();
+  if(matchMedia("(max-width:860px)").matches)document.querySelector(".room").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth",block:"start"});
+}
+function bubble(role,text,by){
+  const d=document.createElement("div");d.className="msg "+(role==="user"?"me":"them");
+  if(role!=="user"){const b=document.createElement("span");b.className="by";b.textContent=by||speaker();d.append(b)}
+  const body=document.createElement("span");body.textContent=text;d.append(body);$("log").append(d);d._body=body;return d;
+}
+const cleanBio=b=>b.split(/(?<=\.)\s+/).filter(x=>!/تحدّث|نبّه|اذكر هذا الخلاف/.test(x)).join(" ");
+const speaker=()=>S.cur.historian||S.cur.h?"المؤرخ":S.cur.n;
+function helloOf(f){
+  if(f.hello)return f.hello;
+  if(f.h)return `سلني عن ${f.n}، وسأحدثك عنه بما تقوله المصادر الموثوقة.`;
+  return `أهلاً بك في مجلسي. أنا ${f.n}، ${f.w}. سلني عن حياتي وزمني وما شهدته.`;
+}
+const unavailable=()=>window.claude?"المحادثة غير متاحة في هذا العرض.":"المحادثة الذكية تعمل حين تُفتح الصفحة داخل Claude. هنا يمكنك تصفّح بطاقات الأعلام والأحداث.";
+function renderRoom(){
+  const f=S.cur;const old=$("whoMed");const m=medallion(f);m.id="whoMed";old.replaceWith(m);
+  $("whoName").textContent=f.n;$("whoEra").textContent=f.e?`${f.w} · ${eraOf(f.e).n}`:f.w;
+  const log=$("log");log.textContent="";
+  if(f.b&&!f.historian){const c=document.createElement("div");c.className="bio";const h=document.createElement("b");h.textContent="بطاقة العلَم";c.append(h,document.createTextNode(cleanBio(f.b)));log.append(c)}
+  bubble("assistant",helloOf(f));
+  (S.turns[f.id]||[]).forEach(t=>bubble(t.role,t.content));
+  if(!(S.turns[f.id]||[]).length){const s=document.createElement("div");s.className="starters";
+    (f.s||(f.h?STARTERS_H:STARTERS[f.t])||["حدّثني عن نفسك","كيف كانت الحياة في زمنك؟"]).forEach(q=>{const c=document.createElement("button");c.type="button";c.className="chip";c.textContent=q;c.onclick=()=>ask(q);s.append(c)});log.append(s)}
+  log.scrollTop=0;$("status").textContent=sampleChecked&&!sample?unavailable():"";
+}
+function copyFor(c){return({not_granted:"لم يُسمح لهذه الصفحة باستخدام Claude، فالمحادثة متوقفة.",sampling_disabled:"المحادثة غير متاحة لهذا الحساب.",
+  rate_limited:"وصلت إلى حد الأسئلة مؤقتاً، حاول بعد قليل.",session_expired:"انتهت الجلسة، سجّل الدخول من جديد ثم اسأل مرة أخرى.",
+  refused:"لم يُجب المجلس عن هذا السؤال، جرّب صياغة أخرى.",prompt_too_large:"الحوار طويل جداً، اضغط «بدء من جديد»."}[c])||"تعذّر الحصول على إجابة الآن، حاول مرة أخرى."}
+async function ensureSample(){if(sampleChecked)return sample;try{sample=await window.claude?.use?.("sample")}catch(_){sample=null}sampleChecked=true;return sample}
+async function ask(q){
+  q=(q||"").trim();if(!q||S.busy)return;const f=S.cur;const turns=S.turns[f.id]||(S.turns[f.id]=[]);
+  document.querySelector(".starters")?.remove();bubble("user",q);$("q").value="";$("q").style.height="";
+  const s=await ensureSample();if(!s){$("status").textContent=unavailable();return}
+  turns.push({role:"user",content:q});const b=bubble("assistant","…");$("log").scrollTop=$("log").scrollHeight;
+  S.busy=true;$("sendBtn").textContent="إيقاف";$("status").textContent="";S.ctl=new AbortController();
+  let recent=turns.slice(-16);if(recent[0]&&recent[0].role!=="user")recent=recent.slice(1);
+  const input=[{role:"user",content:rules(f)+"\n\nابدأ المجلس."},{role:"assistant",content:helloOf(f)},...recent];
+  try{const {text}=await s(input,{cache:false,signal:S.ctl.signal,onText:({text})=>{b._body.textContent=text;const l=$("log");l.scrollTop=l.scrollHeight}});
+    b._body.textContent=text;turns.push({role:"assistant",content:text});
+  }catch(e){if(e&&e.code==="cancelled"){const k=e.text||"";if(k){b._body.textContent=k;turns.push({role:"assistant",content:k})}else{b.remove();turns.pop()}}
+    else{b.remove();turns.pop();$("status").textContent=copyFor(e&&e.code)}
+  }finally{S.busy=false;$("sendBtn").textContent="اسأل"}
+}
+function setTab(t){S.tab=t;S.era=null;$("tabF").setAttribute("aria-selected",String(t==="f"));$("tabE").setAttribute("aria-selected",String(t==="e"));chips();renderItems()}
+$("tabF").onclick=()=>setTab("f");$("tabE").onclick=()=>setTab("e");
+$("find").addEventListener("input",()=>{S.find=$("find").value;renderItems()});
+$("form").addEventListener("submit",ev=>{ev.preventDefault();if(S.busy){S.ctl?.abort();return}ask($("q").value)});
+$("q").addEventListener("keydown",ev=>{if(ev.key==="Enter"&&!ev.shiftKey&&!ev.isComposing){ev.preventDefault();$("form").requestSubmit()}});
+$("q").addEventListener("input",function(){this.style.height="auto";this.style.height=Math.min(this.scrollHeight,140)+"px"});
+$("resetBtn").onclick=()=>{S.ctl?.abort();S.turns[S.cur.id]=[];renderRoom()};
+$("copyBtn").onclick=async()=>{const f=S.cur;const sp=speaker();const lines=[`مجلس التاريخ العُماني: حوار مع ${f.n}`,"",`${sp}: ${helloOf(f)}`];
+  (S.turns[f.id]||[]).forEach(t=>lines.push(`${t.role==="user"?"السائل":sp}: ${t.content}`));const txt=lines.join("\n\n");
+  try{await navigator.clipboard.writeText(txt);$("status").textContent="نُسخ الحوار"}
+  catch(_){const ta=document.createElement("textarea");ta.value=txt;ta.style.cssText="position:fixed;opacity:0";document.body.append(ta);ta.select();
+    try{document.execCommand("copy");$("status").textContent="نُسخ الحوار"}catch(__){$("status").textContent="تعذّر النسخ"}ta.remove()}};
+$("nFig").textContent=FIGURES.length;$("nW").textContent=FIGURES.filter(f=>f.g==="f").length;$("nEv").textContent=EVENTS.length;
+chips();renderItems();renderRoom();
+ensureSample().then(s=>{if(!s)$("status").textContent=unavailable()});
+</script>
