@@ -23,11 +23,13 @@ PAGES = [  # key, template, github file, nav label
     ("majlis", "majlis.html", "majlis.html", "مجلس التاريخ"),
     ("calendar", "calendar.html", "on-this-day.html", "حدث في مثل هذا اليوم"),
     ("archive", "archive.html", "oral-history.html", "الذاكرة الصوتية"),
+    ("sources", "sources.html", "sources.html", "مصادر عُمان في العالم"),
 ]
 ARTIFACT_URLS = {
     "majlis": "https://claude.ai/artifact/8WDoGRV5EAS7xMxb2TmYp4",
     "calendar": "https://claude.ai/artifact/7HY8GnnrjhP1wnViacbXjA",
     "archive": "https://claude.ai/artifact/E2vCNT7W3G6yNBaSeN3MJZ",
+    "sources": "https://claude.ai/artifact/MYnGs8pFaBqcLZJ32LeHAN",
 }
 REPO_URL = "https://github.com/thuraya1988/The-Historical-Association-of-Oman"
 
@@ -42,7 +44,7 @@ def bar(current, mode, logos):
     links = []
     for key, _, gh, label in PAGES:
         if mode == "artifact":
-            if key == "home":
+            if key == "home" or key not in ARTIFACT_URLS:
                 continue
             href = ARTIFACT_URLS[key]
         else:

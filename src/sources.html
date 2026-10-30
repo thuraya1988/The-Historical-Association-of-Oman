@@ -1,0 +1,181 @@
+<title>مصادر عُمان في العالم</title>
+{{HEAD}}
+<style>
+/* Layout: a research desk — three shelves (Omani books, travellers, foreign archives by country), each card a call slip with a working link */
+.wrap{max-width:1100px;margin:0 auto;display:grid;gap:26px}
+.intro h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,5.5vw,42px);line-height:1.3;margin:0;text-wrap:balance}
+.intro p{color:var(--muted);margin:6px 0 0;max-width:66ch}
+.stamp{display:inline-block;margin-top:10px;font-size:12.5px;color:var(--orange-ink);border:1px solid var(--orange);border-radius:4px;padding:1px 8px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding-block:4px 10px;border-bottom:1px solid var(--line)}
+.bar input{font:inherit;font-size:14px;flex:1 1 240px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);padding:8px 12px;min-height:40px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:inherit;font-size:13.5px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);padding:5px 12px;cursor:pointer;min-height:36px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.shelf{display:grid;gap:12px}
+.shelf h2{font-family:var(--display);font-weight:700;font-size:22px;margin:0;display:flex;align-items:baseline;gap:10px}
+.shelf h2 small{font-family:var(--body);font-weight:400;font-size:13px;color:var(--muted)}
+.shelf>p{margin:0;color:var(--muted);font-size:14px;max-width:70ch}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+.card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:6px;background:var(--paper);align-content:start}
+.card .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.card .when{font-size:12.5px;font-weight:600;color:var(--orange-ink);white-space:nowrap;unicode-bidi:isolate}
+.card h3{font-family:var(--display);font-weight:700;font-size:16.5px;line-height:1.6;margin:0}
+.card .by{font-size:13px;color:var(--muted)}
+.card p{margin:0;font-size:14px;line-height:1.8}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:11.5px;border-radius:4px;padding:1px 7px;background:var(--surface);color:var(--muted)}
+.tag.ok{background:var(--orange-soft);color:var(--orange-ink)}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.links a{font-size:13.5px;font-weight:600;text-decoration:none;color:var(--ink);border:1px solid var(--ink);border-radius:6px;padding:5px 12px}
+.links a:hover{background:var(--ink);color:var(--paper)}
+.links a.alt{border-color:var(--line);font-weight:400}
+.country{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.country>header{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;justify-content:space-between;padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+.country>header h3{font-family:var(--display);font-weight:700;font-size:19px;margin:0}
+.country>header span{font-size:13px;color:var(--muted)}
+.country .grid{padding:12px}
+.country .card{border-style:dashed}
+.terms{font-size:13px;color:var(--muted);padding:0 16px 12px}
+.terms code{font-family:var(--mono);direction:ltr;unicode-bidi:isolate;background:var(--surface);border-radius:3px;padding:0 4px;color:var(--ink)}
+.tips{background:var(--orange-soft);border-radius:12px;padding:16px 18px;display:grid;gap:8px}
+.tips h2{font-family:var(--display);font-size:20px;margin:0}
+.tips ol{margin:0;padding-inline-start:20px;display:grid;gap:6px}
+.none{color:var(--muted)}
+</style>
+<div dir="rtl" lang="ar">
+{{BAR}}
+<div class="wrap">
+  <section class="intro">
+    <h1>مصادر تاريخ عُمان في العالم</h1>
+    <p>دليل مرتب للباحثين: كتب تراثية عُمانية تُقرأ على الإنترنت، وما كتبه الرحالة والجغرافيون الأجانب عن عُمان، والأرشيفات الأجنبية التي تحفظ وثائق عُمانية، مرتبةً حسب الدولة.</p>
+    <span class="stamp">فُتحت الروابط وتُحقق منها في 30 أكتوبر 2026</span>
+  </section>
+
+  <div class="bar">
+    <input id="q" type="search" placeholder="ابحث: زنجبار، البرتغال، ظفار، ابن ماجد…" aria-label="بحث في الدليل">
+    <div class="chips" id="chips" role="group" aria-label="الأقسام"></div>
+  </div>
+
+  <div id="out" class="wrap" style="gap:30px"></div>
+
+  <section class="tips" id="tips">
+    <h2>كيف تبحثين في الأرشيفات الأجنبية</h2>
+    <ol>
+      <li>عُمان تُكتب في الوثائق القديمة بأشكال كثيرة، فابحثي بها كلها: <b>Muscat</b> و<b>Maskat</b> و<b>Mascate</b> و<b>Mascat</b> و<b>Omã</b> و<b>Oman</b> و<b>Imam of Muscat</b>.</li>
+      <li>للمدن: <b>Sohar / Soar</b>، و<b>Kalhat / Calayate</b>، و<b>Sur</b>، و<b>Dhofar / Dhufar</b>، و<b>Zanzibar</b>، و<b>Gwadar</b>، و<b>Mombasa</b>.</li>
+      <li>الوثائق البريطانية عن عُمان أغلبها في سجلات مكتب الهند (India Office Records) لأن عُمان كانت تتبع حكومة الهند البريطانية في مراسلاتها حتى 1947، ومعظمها مرقمن مجاناً في مكتبة قطر الرقمية.</li>
+      <li>الأرشيف البرتغالي يذكر «هرمز» أكثر من «مسقط»، لأن مسقط كانت تابعة إدارياً لقلعة هرمز في القرن السادس عشر.</li>
+      <li>للمؤسسات: يمكن للجمعية أن تطلب نسخاً رقمية رسمية من هذه الأرشيفات عبر هيئة الوثائق والمحفوظات الوطنية التي تتعاون معها.</li>
+    </ol>
+  </section>
+</div>
+{{FOOT}}
+</div>
+<script>
+const OMANI=[
+ {when:"1350هـ/1931م",t:"تحفة الأعيان بسيرة أهل عُمان",by:"نور الدين السالمي",d:"أهم مصدر عُماني لتاريخ الإمامة. طبعة القاهرة 1931 في جزأين، مرقمنة كاملة وقابلة للتنزيل PDF.",tags:["عربي","مجاني","كتاب كامل"],links:[["افتح الكتاب","https://sites.dlib.nyu.edu/viewer/books/nyu_aco001097/display?lang=ar"]],ok:1},
+ {when:"1871",t:"تاريخ الأئمة والسادة في عُمان (الفتح المبين)",by:"حميد بن رزيق، ترجمة جورج بادجر",d:"الترجمة الإنجليزية لكتاب ابن رزيق التي نشرتها جمعية هاكلويت في لندن، ومعها مقدمة بادجر الطويلة عن تاريخ عُمان. مرقمنة صفحةً صفحة في مكتبة قطر الرقمية.",tags:["إنجليزي","مجاني","كتاب كامل"],links:[["افتح الكتاب","https://qdl.qa/archive/81055/vdc_100023697835.0x000017"],["طبعة كامبريدج 2010","https://cambridge.org/core/books/history-of-the-imams-and-seyyids-of-oman/9EF87662E97757984A46A6F55A09270E"]],ok:1},
+ {when:"1908–1915",t:"دليل الخليج (Lorimer's Gazetteer)",by:"ج. ج. لوريمر",d:"موسوعة بريطانية سرية في نحو 5000 صفحة عن تاريخ الخليج وعُمان وقبائلها ومدنها، أُعدّت لحكومة الهند البريطانية. متاحة كاملة مجاناً.",tags:["إنجليزي","مجاني","كتاب كامل"],links:[["المجلد الجغرافي","https://www.qdl.qa/archive/81055/vdc_100023515713.0x00008b"],["صفحة المشروع","https://www.qdl.qa/en/colonial-knowledge-lorimer%E2%80%99s-gazetteer-persian-gulf-oman-and-central-arabia"]],ok:1},
+ {when:"منصة",t:"منصة المخطوطات العُمانية الإلكترونية",by:"دار المخطوطات، وزارة التراث",d:"أكثر من 4000 مخطوطة عُمانية أُتيحت إلكترونياً للباحثين سنة 2019. اسم الوزارة تغيّر بعد ذلك، فإن لم يفتح الرابط فابحثي عن «دار المخطوطات» في موقع وزارة التراث والسياحة.",tags:["عربي","مخطوطات"],links:[["رابط المنصة (2019)","https://manuscripts.mhc.gov.om/ar/"],["خبر الإطلاق","https://www.ajnet.me/culture/2019/6/30/المخطوطات-العمانية-وزارة-التراث"]]},
+ {when:"منصة",t:"هيئة الوثائق والمحفوظات الوطنية",by:"سلطنة عُمان",d:"الأرشيف الوطني العُماني، ويضم نسخاً من وثائق عُمانية جُلبت من أرشيفات أجنبية، وينشر سلسلة إصدارات علمية منها ثلاثية «الإمبراطورية العُمانية من سواحل أفريقيا إلى سواحل الهند».",tags:["عربي","إنجليزي"],links:[["الموقع الرسمي","https://nraa.gov.om/"],["عن ثلاثية الإمبراطورية","https://www.omanobserver.om/ampArticle/1185905"]]}
+];
+const TRAVEL=[
+ {when:"القرن 1م",t:"الطواف حول البحر الإريتري (Periplus)",by:"تاجر يوناني مجهول",d:"دليل تجاري قديم يذكر موسكا (خور روري في ظفار) وميناء «عُمانا» وتجارة اللبان. أقدم وصف مكتوب لسواحل عُمان.",tags:["يوناني مترجم","تعريف"],links:[["عن الكتاب وترجماته","https://en.wikipedia.org/wiki/Periplus_of_the_Erythraean_Sea"]],ok:1},
+ {when:"القرن 4هـ",t:"أحسن التقاسيم في معرفة الأقاليم",by:"المقدسي",d:"جغرافي عربي وصف صحار وصفاً شهيراً بأنها من أعمر مدن الإسلام. طبعة ليدن (بريل) 1909 مرقمنة.",tags:["عربي","مجاني","كتاب كامل"],links:[["افتح الكتاب","https://ediscovery.qnl.qa/islandora/object/QNL:00019321"]],ok:1},
+ {when:"نحو 1293م",t:"رحلات ماركو بولو",by:"ماركو بولو، ترجمة يول وكوردييه",d:"في الكتاب الثالث فصلان عن ظفار (Dufar) وعن قلهات (Calatu) وخليجها، مع تعليقات عن مسقط.",tags:["إنجليزي","مجاني","كتاب كامل"],links:[["المجلد الثاني","https://gutenberg.org/ebooks/12410.html.images"]],ok:1},
+ {when:"1331م",t:"رحلة ابن بطوطة (تحفة النظار)",by:"ابن بطوطة",d:"زار قلهات ونزوى ووصف سلطان عُمان من النباهنة أبا محمد بن نبهان، وهي من أندر الشهادات عن عصر النباهنة.",tags:["عربي","مجاني","كتاب كامل"],links:[["افتح الكتاب","https://archive.org/details/20200917_20200917_2022"]],ok:1},
+ {when:"1516م",t:"كتاب دوارتي باربوسا",by:"دوارتي باربوسا (برتغالي)",d:"وصف برتغالي مبكر لموانئ المحيط الهندي، ومنها قلهات ومسقط وصحار، قبيل السيطرة البرتغالية وفي بدايتها. طبعة هاكلويت 1918 في مجلدين.",tags:["إنجليزي","سجل مكتبة"],links:[["سجل الكتاب","https://catalog.hathitrust.org/Record/002809444"]]},
+ {when:"1773م",t:"وصف بلاد العرب (Description de l'Arabie)",by:"كارستن نيبور (دنماركي)",d:"من نتائج البعثة الدنماركية إلى الجزيرة العربية، وفيه معلومات عن مسقط وعُمان في زمن الإمام أحمد بن سعيد.",tags:["فرنسي","مجاني"],links:[["افتح السجل","https://ediscovery.qnl.qa/islandora/object/QNL%3A00014107"]],ok:1},
+ {when:"1838م",t:"رحلات في الجزيرة العربية (Travels in Arabia)",by:"جيمس ولستد (بريطاني)",d:"المجلد الأول كله عن عُمان: رحلته في الداخل والجبل الأخضر والشرقية في ثلاثينيات القرن التاسع عشر.",tags:["إنجليزي","مجاني","كتاب كامل"],links:[["افتح الكتاب","https://ediscovery.qnl.qa/islandora/object/QNL:00014236"]],ok:1},
+ {when:"1865م",t:"رحلة عام في وسط الجزيرة العربية وشرقها",by:"وليم بالغريف (بريطاني)",d:"تنتهي رحلته في عُمان، ويصف مسقط وأحوالها في ستينيات القرن التاسع عشر. في مكتبة قطر الرقمية ملف بمراجعات الكتاب عند صدوره.",tags:["إنجليزي"],links:[["نسخة الكتاب (PDF)","https://archive.org/download/CentralAndEasternArabia/CentralAndEasternArabia.pdf"],["مراجعات 1865","https://www.qdl.qa/en/archive/81055/vdc_100023318133.0x000029"]]},
+ {when:"1886–1888م",t:"مذكرات أميرة عربية",by:"السيدة سالمة بنت سعيد (إميلي رويته)",d:"سيرة ابنة السيد سعيد بن سلطان، كتبتها بالألمانية، وتصف الحياة في قصور زنجبار ومسقط. طبعة نيويورك الإنجليزية 1888.",tags:["إنجليزي","مجاني","كتاب كامل"],links:[["افتح الكتاب","https://ediscovery.qnl.qa/islandora/object/QNL%3A00011761"],["نسخة أرشيف الإنترنت","https://archive.org/stream/memoirsanarabia00ruetgoog/memoirsanarabia00ruetgoog_djvu.txt"]],ok:1},
+ {when:"1900م",t:"جنوب الجزيرة العربية (Southern Arabia)",by:"ثيودور وميبل بنت (بريطانيان)",d:"فصول عن تاريخ عُمان ومسقط، وخمسة فصول عن ظفار ومرباط وجبال القرا وأهلها في تسعينيات القرن التاسع عشر.",tags:["إنجليزي","مجاني","كتاب كامل"],links:[["افتح الكتاب","https://gutenberg.org/cache/epub/21569/pg21569-images.html"]],ok:1},
+ {when:"1919م",t:"بلدان الخليج وقبائله",by:"صموئيل مايلز (بريطاني)",d:"كتبه قنصل بريطاني عاش في مسقط سنوات، ويُعد من أوسع الكتب الإنجليزية في تاريخ عُمان حتى القرن التاسع عشر.",tags:["إنجليزي","مجاني"],links:[["افتح السجل","https://ediscovery.qnl.qa/islandora/object/QNL:00012219"]],ok:1},
+ {when:"1932م",t:"العربية السعيدة (Arabia Felix)",by:"برترام توماس (بريطاني)",d:"كان وزيراً لدى سلطان مسقط، وعبر الربع الخالي انطلاقاً من صلالة سنة 1931. وصف دقيق لظفار وأهلها.",tags:["إنجليزي","نص جزئي"],links:[["النص على أرشيف الإنترنت","https://archive.org/stream/in.ernet.dli.2015.103302/2015.103302.Arabia-Felix-Across-The-Empty-Quarter-Of-Arabia_djvu.txt"]],ok:1}
+];
+const COUNTRIES=[
+ {c:"بريطانيا",s:"أكبر رصيد أجنبي عن عُمان",terms:["Muscat","Maskat","Muscat and Oman","IOR/R/15/6"],items:[
+  {t:"مكتبة قطر الرقمية: سجلات مكتب الهند",d:"ملايين الصفحات المرقمنة من المكتبة البريطانية، منها ملفات الوكالة السياسية البريطانية في مسقط (1763–1951)، بالعربية والإنجليزية ومجاناً.",tags:["مجاني","عربي وإنجليزي"],links:[["ابدئي من هنا","https://qdl.qa/en/about"],["مثال: ملخص أحداث مسقط وعُمان 1928–1953","https://qdl.qa/en/archive/81055/vdc_100000000193.0x0002c1"]],ok:1},
+  {t:"الأرشيف الرقمي للخليج العربي (AGDA)",d:"وثائق الأرشيف الوطني البريطاني عن الخليج، أتاحه الأرشيف الوطني الإماراتي بالشراكة مع الأرشيف البريطاني.",tags:["مجاني","إنجليزي"],links:[["افتح الأرشيف","https://www.agda.ae/en/about-us"]],ok:1},
+  {t:"أرشيف الشرق الأوسط، كلية سانت أنتوني، أكسفورد",d:"نحو 89 مجموعة عن عُمان، معظمها من الستينيات إلى الثمانينيات: أوراق ضباط وصحفيين، وملفات من مكتب شركة تنمية نفط عُمان، وتسجيلات تاريخ شفهي عن حرب ظفار والنهضة.",tags:["زيارة أو مراسلة","إنجليزي"],links:[["دليل مجموعات عُمان (PDF)","https://www.sant.ox.ac.uk/wp-content/uploads/2023/12/mec-archive-oman-archive-guide.pdf"]],ok:1}
+ ]},
+ {c:"البرتغال",s:"عصر الوجود البرتغالي 1507–1650",terms:["Mascate","Ormuz","Soar","Calaiate","Omã"],items:[
+  {t:"الأرشيف الوطني توري دو تومبو (DigitArq)",d:"رسائل قادة الحملات إلى ملوك البرتغال وسجلات جمارك هرمز التي كانت مسقط تتبعها. كثير من الوثائق مصوّر ويُعرض مجاناً. مثال: رسالة عن إيرادات جمارك هرمز سنة 1528.",tags:["برتغالي","مجاني"],links:[["مثال: وثيقة 1528","https://digitarq.arquivos.pt/details?id=7784187"]],ok:1}
+ ]},
+ {c:"هولندا",s:"شركة الهند الشرقية الهولندية",terms:["Maskat","Mascate","Oman","Perzië"],items:[
+  {t:"الأرشيف الوطني الهولندي: أرشيف شركة الهند الشرقية (VOC)",d:"تقارير التجار الهولنديين في الخليج والمحيط الهندي في القرنين السابع عشر والثامن عشر، وفيها أخبار مسقط وتجارتها وأساطيل اليعاربة. هذا دليل الأرشيف بالإنجليزية.",tags:["هولندي","دليل"],links:[["دليل أرشيف الشركة (PDF)","https://www.nationaalarchief.nl/sites/default/files/afbeeldingen/toegangen/NL-HaNA_1.04.02_introduction-VOC.pdf"]],ok:1}
+ ]},
+ {c:"فرنسا",s:"القنصلية الفرنسية في مسقط وتجارة السلاح",terms:["Mascate","Imam de Mascate","Sultan de Mascate"],items:[
+  {t:"الوثائق الدبلوماسية الفرنسية: شؤون مسقط 1912–1914",d:"كتاب أصفر فرنسي رسمي (باريس 1914) عن مراسلات فرنسا وبريطانيا حول مرسوم السلطان في 4 يونيو 1912 بتنظيم تجارة السلاح في مسقط. مرقمن في LLMC.",tags:["فرنسي"],links:[["سجل الوثيقة","https://catalog.crl.edu/Record/003bff0d-e4c7-53ec-8866-b0323164610b/Description"]],ok:1}
+ ]},
+ {c:"الولايات المتحدة",s:"علاقات منذ 1833",terms:["Muscat","Sultan of Muscat","Zanzibar"],items:[
+  {t:"معاهدة الصداقة والتجارة 1833",d:"نص المعاهدة التي وقّعها السيد سعيد بن سلطان مع المبعوث الأمريكي إدموند روبرتس في مسقط في 21 سبتمبر 1833، من مجموعة القوانين الأمريكية الرسمية.",tags:["إنجليزي","مجاني"],links:[["نص المعاهدة","https://www.govinfo.gov/link/statute/8/458"]],ok:1}
+ ]},
+ {c:"روسيا",s:"مخطوطة أحمد بن ماجد",terms:["Ibn Majid","Institute of Oriental Manuscripts"],items:[
+  {t:"معهد المخطوطات الشرقية، سانت بطرسبرغ",d:"يحفظ المخطوطة الأصلية لثلاث أراجيز في الملاحة لأحمد بن ماجد: السفالية والمعلقية والتائية. أُعيرت إلى المتحف الوطني العُماني وعُرضت فيه في نوفمبر 2021.",tags:["مخطوطة"],links:[["خبر المتحف الوطني","https://nm.gov.om/news/the-national-museum-inaugurates-the-original-manuscript-of-collection-of-proses-in-marine-sciences-by-the-omani-navigator-ahmed-bin-majid-as-sa’adi-on-loan-from-the-institute-of-oriental-manuscripts-in-the-russian-federation"]],ok:1}
+ ]},
+ {c:"تركيا",s:"الأرشيف العثماني",terms:["Maskat","Umman","Mesqat"],items:[
+  {t:"عُمان في الوثائق العثمانية (خمسة أجزاء)",d:"تعود أقدم الوثائق إلى نوفمبر 1552، عن حملة بيري ريس على مسقط. ومنها رسالة السلطان عبدالحميد الأول إلى الإمام أحمد بن سعيد في 7 يوليو 1777 يطلب فيها نجدة البصرة.",tags:["عربي وتركي"],links:[["عن الكتاب والوثائق","https://www.omandaily.om/ampArticle/1168346"]],ok:1}
+ ]},
+ {c:"الهند",s:"الجالية الهندية في عُمان",terms:["Muscat","Oman Collection"],items:[
+  {t:"مجموعة عُمان، الأرشيف الوطني الهندي (Abhilekh Patal)",d:"أكثر من 7000 وثيقة من 32 أسرة تجارية هندية عاشت في مسقط، أقدمها من سنة 1838: دفاتر تجارة ومراسلات وصكوك، رُقمنت سنة 2024.",tags:["مجاني"],links:[["خبر المشروع ورابط البوابة","https://thegulfindians.com/in-a-global-first-diaspora-archives-from-oman-go-online-on-national-archives-of-india-portal/"]],ok:1}
+ ]},
+ {c:"زنجبار (تنزانيا)",s:"وثائق الدولة البوسعيدية في أفريقيا",terms:["Zanzibar","Sultan of Zanzibar","Busaidi"],items:[
+  {t:"الأرشيف الوطني في زنجبار",d:"أكثر من 800 مخطوطة وكتاب عربي، بعضها عمره نحو ثلاثة قرون، رشّحتها تنزانيا لسجل ذاكرة العالم في اليونسكو. فيها مؤلفات علماء عُمانيين عاشوا في زنجبار.",tags:["عربي","زيارة"],links:[["ملف الترشيح لليونسكو (PDF)","https://en.unesco.org/sites/default/files/collection_of_arabic_manuscripts_and_books_nomination_form.pdf"],["دراسة: الأرشيفات الإباضية في عُمان وزنجبار","https://kerko.ibadica.org/bibliography/YPD43MGD"]],ok:1}
+ ]},
+ {c:"ألمانيا",s:"تحقيقات المستشرقين",terms:["Kašf al-ġumma","Oman"],items:[
+  {t:"كشف الغمة للإزكوي، طبعة هامبورغ 1938",d:"حققت المستشرقة هيدفيغ كلاين نص «كشف الغمة الجامع لأخبار الأمة» ونشرته في هامبورغ سنة 1938، وهو أقدم تاريخ عُماني مرتب زمنياً.",tags:["عربي"],links:[["عرض الطبعة","https://resolve.cambridge.org/core/journals/bulletin-of-the-school-of-oriental-and-african-studies/article/abs/kasf-algumma-algami-liahbar-alumma-arabic-text-edited-with-introduction-and-notes-by-hedwig-klein-hamburg-1938/C8024C00CD120EA67EF31B4957B032F1"]],ok:1}
+ ]}
+];
+const $=id=>document.getElementById(id);
+let tab="all",q="";
+const TABS=[["all","الكل"],["omani","كتب عُمانية"],["travel","الرحالة والجغرافيون"],["arch","أرشيفات الدول"]];
+const norm=s=>(s||"").replace(/[ًٌٍَُِّْ]/g,"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").toLowerCase();
+const hit=o=>!q||norm([o.t,o.by,o.d,o.when,(o.tags||[]).join(" ")].join(" ")).includes(norm(q));
+function card(o){
+  const c=document.createElement("article");c.className="card";
+  const top=document.createElement("div");top.className="top";
+  const h=document.createElement("h3");h.textContent=o.t;top.append(h);
+  if(o.when){const w=document.createElement("span");w.className="when";w.textContent=o.when;top.append(w)}
+  c.append(top);
+  if(o.by){const b=document.createElement("div");b.className="by";b.textContent=o.by;c.append(b)}
+  const p=document.createElement("p");p.textContent=o.d;c.append(p);
+  const tg=document.createElement("div");tg.className="tags";
+  if(o.ok){const s=document.createElement("span");s.className="tag ok";s.textContent="الرابط مُجرَّب";tg.append(s)}
+  (o.tags||[]).forEach(x=>{const s=document.createElement("span");s.className="tag";s.textContent=x;tg.append(s)});c.append(tg);
+  const l=document.createElement("div");l.className="links";
+  o.links.forEach(([label,href],i)=>{const a=document.createElement("a");a.href=href;a.target="_blank";a.rel="noopener";a.textContent=label+" ↗";if(i)a.className="alt";l.append(a)});
+  c.append(l);return c;
+}
+function shelf(title,note,list){
+  const s=document.createElement("section");s.className="shelf";
+  const h=document.createElement("h2");h.textContent=title;const sm=document.createElement("small");sm.textContent=list.length+" مصدراً";h.append(sm);s.append(h);
+  if(note){const p=document.createElement("p");p.textContent=note;s.append(p)}
+  const g=document.createElement("div");g.className="grid";list.forEach(o=>g.append(card(o)));s.append(g);return s;
+}
+function render(){
+  const out=$("out");out.textContent="";let n=0;
+  if(tab==="all"||tab==="omani"){const l=OMANI.filter(hit);n+=l.length;if(l.length)out.append(shelf("كتب ومنصات عُمانية تُقرأ على الإنترنت","أمهات المصادر العُمانية المرقمنة، مرتبة من الأقدم نشراً.",l))}
+  if(tab==="all"||tab==="travel"){const l=TRAVEL.filter(hit);n+=l.length;if(l.length)out.append(shelf("الرحالة والجغرافيون الذين كتبوا عن عُمان","مرتبون زمنياً من القرن الأول الميلادي إلى القرن العشرين. كتبهم شهادات من خارج عُمان، تُقرأ بعين ناقدة.",l))}
+  if(tab==="all"||tab==="arch"){
+    const cs=COUNTRIES.map(c=>({...c,items:c.items.filter(o=>hit(o)||norm(c.c).includes(norm(q)))})).filter(c=>c.items.length);
+    if(cs.length){
+      const s=document.createElement("section");s.className="shelf";
+      const h=document.createElement("h2");h.textContent="دول أجنبية تحفظ وثائق عُمانية";const sm=document.createElement("small");sm.textContent=cs.length+" دولة";h.append(sm);s.append(h);
+      const p=document.createElement("p");p.textContent="مرتبة حسب حجم ما تحفظه عن عُمان. تحت كل دولة الكلمات التي تُكتب بها عُمان ومدنها في وثائقها.";s.append(p);
+      cs.forEach(c=>{n+=c.items.length;
+        const box=document.createElement("div");box.className="country";
+        const hd=document.createElement("header");const h3=document.createElement("h3");h3.textContent=c.c;const sp=document.createElement("span");sp.textContent=c.s;hd.append(h3,sp);box.append(hd);
+        const g=document.createElement("div");g.className="grid";c.items.forEach(o=>g.append(card(o)));box.append(g);
+        const t=document.createElement("div");t.className="terms";t.append("ابحثي بـ: ");c.terms.forEach((x,i)=>{const k=document.createElement("code");k.textContent=x;t.append(k);if(i<c.terms.length-1)t.append(" · ")});box.append(t);
+        s.append(box)});
+      out.append(s);
+    }
+  }
+  if(!n){const p=document.createElement("p");p.className="none";p.textContent="لا نتائج لهذا البحث.";out.append(p)}
+}
+function chips(){const b=$("chips");b.textContent="";TABS.forEach(([k,l])=>{const x=document.createElement("button");x.type="button";x.className="chip";x.textContent=l;x.setAttribute("aria-pressed",String(tab===k));x.onclick=()=>{tab=k;chips();render()};b.append(x)})}
+$("q").addEventListener("input",()=>{q=$("q").value.trim();render()});
+chips();render();
+</script>
