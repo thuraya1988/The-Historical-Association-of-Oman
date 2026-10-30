@@ -160,7 +160,7 @@ const strip=n=>n.replace(/^(الإمام|السيد|السيدة|السلطان|
 function medallion(f){
   const w=document.createElement("div");w.className="med";
   w.innerHTML=`<svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="27" fill="${f.historian||f.h?"var(--ink)":"var(--orange-soft)"}" stroke="var(--orange)" stroke-width="3"/></svg>`;
-  const s=document.createElement("span");s.textContent=f.historian?"م":strip(f.n).charAt(0);if(f.historian||f.h)s.style.color="var(--paper)";w.append(s);return w;
+  const s=document.createElement("span");s.textContent=f.historian?"م":strip(f.n).replace(/^ال/,"").charAt(0);if(f.historian||f.h)s.style.color="var(--paper)";w.append(s);return w;
 }
 const norm=s=>s.replace(/[ًٌٍَُِّْ]/g,"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي");
 function matches(t){const q=norm(S.find.trim());return !q||norm(t).includes(q)}
