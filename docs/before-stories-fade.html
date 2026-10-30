@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>قبل أن تغيب الحكاية | الجمعية التاريخية العُمانية</title>
+<meta name="theme-color" content="#e98229">
+<meta name="description" content="قبل أن تغيب الحكاية، مشروع توثيق الروايات الشفوية العُمانية للجمعية التاريخية العُمانية">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="oral-collection.css">
+</head>
+<body>
+<header class="site-header"><div class="container header-inner">
+  <a class="brand" href="index.html"><img src="assets/logo-mark-light.png" alt="شعار الجمعية" width="46" height="52"><span><strong>الجمعية التاريخية العُمانية</strong><small>THE HISTORICAL ASSOCIATION OF OMAN</small></span></a>
+  <nav aria-label="التنقل"><a href="index.html">الرئيسية</a><a href="oral-history.html">الأرشيف الصوتي</a><a href="#browse" data-tablink="browse">استمع للروايات</a><a href="#admin" data-tablink="admin">مراجعة الجمعية</a></nav>
+</div></header>
+<main class="container">
+<section class="hero"><span class="eyebrow">مشروع التاريخ الشفوي العُماني · OMANI ORAL HISTORY</span>
+  <div class="hero-grid"><div><h1>قبل أن تغيب <em>الحكاية</em></h1><p class="hero-subtitle">في ذاكرة كل إنسان حكاية، وفي كل حكاية جانب من تاريخ عُمان. شاركنا ذكرياتك أو ذكريات من سبقونا، لنحفظها للأجيال القادمة.</p>
+  <div class="hero-actions"><button type="button" class="button primary" data-tablink="submit">سجّل حكايتك <span aria-hidden="true">←</span></button><button type="button" class="button outline" data-tablink="browse">استمع للروايات</button></div>
+  <p class="small-note">لا تُنشر أي رواية دون موافقة ومراجعة من الجمعية.</p></div>
+  <div class="hero-art" aria-hidden="true"><div class="circle"></div><div class="arch"><div class="arch-inner"><span>١</span><span>٩</span><span>٧</span><span>٠</span></div></div><div class="sound-sign">♫ ··· ♫</div><div class="art-bottom">ذاكرةُ المكانِ والإنسان</div></div>
+  </div>
+</section>
+<div class="connection" id="connection" role="status" hidden></div>
+<div class="tabs" role="tablist" aria-label="أقسام منصة الروايات">
+  <button type="button" role="tab" id="tab-submit" aria-selected="true" data-tab="submit">🎙️ تسجيل رواية</button>
+  <button type="button" role="tab" id="tab-browse" aria-selected="false" data-tab="browse">📖 مكتبة الروايات</button>
+  <button type="button" role="tab" id="tab-admin" aria-selected="false" data-tab="admin">🔐 لوحة المراجعة</button>
+</div>
+<section id="panel-submit" class="panel" role="tabpanel" aria-labelledby="tab-submit">
+ <div class="section-head"><div><span class="eyebrow">أودِع حكايتك في الأرشيف</span><h2>سجّل صوتًا أو اكتب رواية</h2></div><span class="step-chip">الخطوة ١ من ٢ · التسجيل والمعلومات</span></div>
+ <div class="panel-grid"><div>
+  <div class="recorder" id="recorder">
+    <div class="rec-head"><div><strong>الاستوديو الصوتي</strong><p>اختَر مكانًا هادئًا، ثم اضغط تسجيل.</p></div><span class="live-dot" id="liveDot" hidden>جارٍ التسجيل</span></div>
+    <div class="wave" id="wave" aria-hidden="true"></div>
+    <div class="timer" id="timer" aria-live="polite">00:00</div>
+    <div class="rec-actions"><button type="button" class="round-record" id="record" aria-label="بدء التسجيل"><span class="rec-circle"></span></button><button type="button" class="button outline compact" id="pause" hidden>إيقاف مؤقت</button><button type="button" class="button outline compact" id="stop" hidden>إنهاء التسجيل</button></div>
+    <p id="rec-status" class="helper" role="status">يمكنك تسجيل صوتك هنا مباشرة من الهاتف، أو اختيار ملف محفوظ.</p>
+    <audio id="recordedAudio" controls preload="metadata" hidden></audio>
+    <div id="recordedActions" class="recorded-actions" hidden><button type="button" id="discard" class="link-btn">حذف التسجيل والبدء من جديد</button><a id="downloadAudio" class="link-btn" download="omani-story.webm">تنزيل نسخة من التسجيل</a></div>
+    <label for="audioFile" class="upload"><span>↑</span> أو ارفع تسجيلاً من جهازك <small>MP3 · M4A · WAV · WebM · OGG — بحد أقصى 12 م.ب</small></label><input id="audioFile" type="file" accept="audio/*,audio/mp4,audio/webm,audio/ogg,video/mp4,video/webm,.m4a,.mp3,.wav,.webm,.ogg" class="sr-only">
+    <p id="fileName" class="helper" aria-live="polite"></p>
+  </div>
+ </div><form id="submitForm" class="story-form">
+  <h3>بيانات الحكاية</h3>
+  <div class="two"><label>عنوان الرواية <b>*</b><input name="title" required maxlength="160" placeholder="مثال: أيام الحصاد في سمائل"></label><label>اسم الراوي <input name="narrator" maxlength="100" placeholder="يمكن إخفاء الاسم عن الجمهور"></label></div>
+  <div class="two"><label>المحافظة <b>*</b><select name="governorate" id="governorate" required><option value="">اختر المحافظة</option></select></label><label>الولاية <b>*</b><input name="wilayah" maxlength="70" required placeholder="مثال: سمائل"></label></div>
+  <div class="two"><label>القرية <input name="village" maxlength="100" placeholder="اختياري"></label><label>الموضوع <b>*</b><select name="category" id="category" required><option value="">اختر الموضوع</option></select></label></div>
+  <div class="two"><label>الفترة التاريخية <input name="era" maxlength="120" placeholder="مثال: السبعينيات"></label><label>نوع الشهادة <select name="story_source"><option value="witness">أحداث عشتها بنفسي</option><option value="heard">أحداث سمعتها من آخرين</option></select></label></div>
+  <label>وصف مختصر للرواية<textarea name="summary" maxlength="4000" rows="3" placeholder="عمَّ تتحدث هذه الحكاية؟"></textarea></label>
+  <label>النص المكتوب إن توفر<textarea name="transcript" maxlength="16000" rows="4" placeholder="يمكن كتابة الحكاية بدلًا من التسجيل، أو إرفاق النص مع الصوت"></textarea></label>
+  <div class="two"><label>اسم من أجرى التسجيل<input name="recorded_by" maxlength="120" placeholder="اختياري"></label><label>وسيلة تواصل خاصة<input name="contact" maxlength="180" placeholder="اختياري — لا تُعرض للجمهور"></label></div>
+  <label class="attachment">إرفاق صورة قديمة أو وثيقة PDF (اختياري)<input id="attachment" name="attachment" type="file" accept="image/jpeg,image/png,application/pdf,.jpg,.jpeg,.png,.pdf"><small>ملف واحد، حتى 3 م.ب. يبقى خاصًا حتى الموافقة على نشره.</small></label>
+  <div class="consents"><h3>الموافقة والخصوصية</h3>
+   <label><input type="checkbox" name="consent_storage" required> <span>أوافق على حفظ الرواية في أرشيف الجمعية الخاص لأغراض التوثيق والمراجعة. <b>*</b></span></label>
+   <label><input type="checkbox" name="authority_confirmed" required> <span>أنا صاحب الرواية أو مخوّل بتقديمها، وحصلت على الموافقات اللازمة للتسجيل والتوثيق. <b>*</b></span></label>
+   <label><input type="checkbox" name="consent_public"> <span>أوافق على نشر النص والوصف للجمهور بعد مراجعة الجمعية.</span></label>
+   <label><input type="checkbox" name="consent_audio"> <span>أوافق على إتاحة الملف الصوتي للجمهور بعد الاعتماد.</span></label>
+   <label><input type="checkbox" name="consent_name"> <span>أوافق على إظهار اسم الراوي علنًا.</span></label>
+   <label><input type="checkbox" name="consent_attachment"> <span>أوافق على نشر المرفق عند الموافقة على نشر الرواية.</span></label>
+   <p class="helper">تظل البيانات الخاصة والتسجيلات غير المعتمدة محجوبة عن الزوار. يمكنك التواصل مع الجمعية لطلب تصحيح بيانات أو سحب إذن النشر.</p>
+  </div>
+  <div class="submit-footer"><button class="button primary" id="send" type="submit">إرسال الرواية للمراجعة</button><p id="submitStatus" aria-live="polite" role="status"></p></div>
+ </form></div>
+</section>
+<section id="panel-browse" class="panel" role="tabpanel" aria-labelledby="tab-browse" hidden>
+ <div class="section-head"><div><span class="eyebrow">حكايات منشورة بموافقة أصحابها</span><h2>مكتبة الذاكرة الشفوية</h2></div><button class="button outline compact" id="refreshStories" type="button">تحديث المكتبة</button></div>
+ <div class="filters"><input id="search" type="search" placeholder="ابحث بعنوان أو ولاية أو موضوع" aria-label="بحث في المكتبة"><select id="filterGov" aria-label="تصفية حسب المحافظة"><option value="">كل المحافظات</option></select></div>
+ <div id="stories" class="story-grid"><p class="empty">جارٍ تحميل المكتبة…</p></div>
+ <audio id="publicPlayer" controls hidden></audio>
+ <p class="helper">الرواية الشفوية شهادة تاريخية، وقد تحتاج إلى التحقق والمقارنة مع مصادر أخرى.</p>
+</section>
+<section id="panel-admin" class="panel" role="tabpanel" aria-labelledby="tab-admin" hidden>
+ <div class="section-head"><div><span class="eyebrow">لأعضاء فريق التوثيق المخوّلين</span><h2>لوحة المراجعة والأرشفة</h2></div><button type="button" class="button outline compact" id="logout" hidden>تسجيل الخروج</button></div>
+ <form id="loginForm" class="login-box"><h3>الدخول للمراجعين</h3><p class="helper">الحسابات والصلاحيات تُعتمد من إدارة الجمعية. إنشاء حساب عادي لا يمنح صلاحية مراجعة الروايات.</p><label>البريد الإلكتروني<input type="email" name="email" autocomplete="username" required></label><label>كلمة المرور<input type="password" name="password" autocomplete="current-password" required></label><button class="button primary" type="submit">دخول آمن</button><p id="loginStatus" role="status"></p></form>
+ <div id="reviewDashboard" hidden><div id="reviewStats" class="review-stats"></div><div class="review-toolbar"><button id="refreshReviews" type="button" class="button outline compact">تحديث الطلبات</button><button id="exportCsv" type="button" class="button outline compact">تصدير CSV</button></div><div class="review-layout"><div id="reviewList" class="review-list"></div><div id="reviewDetail" class="review-detail"><p class="empty">اختَر رواية لمراجعتها.</p></div></div></div>
+</section>
+</main>
+<footer class="footer container"><span>الجمعية التاريخية العُمانية · The Historical Association of Oman</span><span>تاريخنا أمانة، وروايته مسؤولية.</span><a href="index.html">الرئيسية</a></footer>
+<script type="module" src="oral-collection.js"></script>
+</body></html>

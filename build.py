@@ -49,6 +49,8 @@ def bar(current, mode, logos):
             href = gh
         cur = ' aria-current="page"' if key == current else ""
         links.append(f'<a href="{href}"{cur}>{label}</a>')
+    if mode == "github":
+        links.append('<a href="before-stories-fade.html">قبل أن تغيب الحكاية</a>')
     home = "index.html" if mode == "github" else REPO_URL
     return (f'<header class="ohs-bar"><a class="ohs-id" href="{home}">'
             f'<img class="logo-light" src="{logos["ml"]}" alt="" height="44">'
