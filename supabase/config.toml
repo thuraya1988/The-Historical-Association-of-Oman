@@ -1,0 +1,8 @@
+# Supabase CLI config for the OHA oral history project.
+# Link with: supabase link --project-ref YOUR_PROJECT_REF
+project_id = "oha-oral-history"
+
+[functions.oha-oral-history]
+# Public submissions and approved browsing are anonymous; the function
+# re-verifies the signed-in user and reviewer role itself.
+verify_jwt = false
