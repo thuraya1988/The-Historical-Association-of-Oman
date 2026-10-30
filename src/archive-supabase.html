@@ -1,0 +1,263 @@
+<title>ذاكرة عُمان الصوتية</title>
+{{HEAD}}
+<style>
+/* Layout: an archive shelf — coverage of the 11 governorates up top, approved stories as tape cards, then the submission + consent form */
+:root{--ok:#1f6b45;--bad:#b3261e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#6fcf97;--bad:#ef8a80}}
+:root[data-theme="dark"]{--ok:#6fcf97;--bad:#ef8a80}
+.wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:26px}
+@media (max-width:480px){.govs{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px;align-items:end}
+@media (max-width:760px){.hero{grid-template-columns:minmax(0,1fr)}}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(32px,7vw,52px);line-height:1.2;margin:0;text-wrap:balance}
+.lead{margin:8px 0 0;color:var(--muted);max-width:56ch}
+.stats{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:var(--muted)}
+.stats b{display:block;font-family:var(--display);font-size:26px;color:var(--ink);line-height:1.2;font-variant-numeric:tabular-nums}
+.cta{display:inline-block;margin-top:14px;font-weight:600;text-decoration:none;background:var(--orange);color:var(--on-orange);border-radius:8px;padding:10px 18px}
+.cover{border:1px solid var(--line);border-radius:10px;padding:14px}
+.cover h2{font-size:13px;font-weight:500;margin:0 0 10px;color:var(--muted)}
+.govs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.gov{font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);padding:6px 8px;cursor:pointer;display:flex;justify-content:space-between;gap:6px;min-height:36px;align-items:center;text-align:right}
+.gov .c{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.gov.has{background:var(--orange-soft);border-color:transparent}
+.gov.has .c{color:var(--orange-ink)}
+.gov[aria-pressed="true"]{outline:2px solid var(--orange);outline-offset:-2px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.search{flex:1 1 220px;font:inherit;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);padding:9px 12px;min-height:42px}
+.topics{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;flex:1 1 100%}
+.chip{flex:0 0 auto;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);padding:5px 12px;cursor:pointer;min-height:34px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.list{display:grid;gap:14px}
+.story{border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px}
+.stitle{font-family:var(--display);font-weight:700;font-size:19px;line-height:1.5;margin:0}
+.smeta{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 12px}
+.tag{font-size:12px;background:var(--orange-soft);color:var(--orange-ink);border-radius:4px;padding:1px 8px}
+audio{width:100%;height:40px}
+details summary{cursor:pointer;font-size:13.5px;color:var(--orange-ink);width:max-content}
+.transcript{margin:8px 0 0;white-space:pre-wrap;max-width:68ch;line-height:1.95;font-family:var(--read);font-size:16px}
+.empty,.notice{border:1px dashed var(--line);border-radius:10px;padding:18px;color:var(--muted)}
+.notice b{color:var(--ink)}
+/* form */
+.form{border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:18px}
+.form h2{font-family:var(--display);font-size:24px;margin:0}
+fieldset{border:0;padding:0;margin:0;display:grid;gap:12px;min-width:0}
+label>input,label>select,label>textarea{min-width:0}
+legend{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:8px;color:var(--orange-ink)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.grid2{grid-template-columns:1fr}}
+label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+input,select,textarea{font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;min-height:42px;width:100%}
+textarea{min-height:120px;resize:vertical;line-height:1.8}
+.req{color:var(--bad)}
+.file{border:1.5px dashed var(--orange);border-radius:10px;padding:16px;text-align:center;color:var(--ink);font-size:14px;cursor:pointer;background:var(--orange-soft)}
+.file input{display:none}
+.consent{background:var(--surface);border-radius:10px;padding:14px 16px;display:grid;gap:10px}
+.consent legend{float:right;width:100%;margin-bottom:4px}
+.consent .statement{font-family:var(--read);font-size:15.5px;line-height:1.95;color:var(--ink);margin:0}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink)}
+.check input{width:20px;height:20px;min-height:0;margin-top:3px;flex:0 0 auto;accent-color:var(--orange)}
+.check small{display:block;color:var(--muted);font-size:12.5px}
+.btn{font:inherit;font-size:15px;font-weight:600;border-radius:8px;border:0;background:var(--ink);color:var(--paper);padding:11px 22px;cursor:pointer;min-height:46px}
+.btn:disabled{opacity:.55;cursor:default}
+.foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.msg{font-size:14px;color:var(--muted)}
+.msg.err{color:var(--bad)}
+.msg.ok{color:var(--ok);font-weight:600}
+.small{font-size:12.5px;color:var(--muted);margin:0}
+</style>
+<div dir="rtl" lang="ar">
+{{BAR}}
+<div class="wrap">
+  <section class="hero">
+    <div>
+      <h1>ذاكرة عُمان الصوتية</h1>
+      <p class="lead">أرشيف الجمعية التاريخية العُمانية لحكايات كبار السن بأصواتهم: الأفلاج والأسواق والسفر والمهن القديمة، مع نص مكتوب لكل تسجيل. تُنشر كل رواية بموافقة راويها وبعد مراجعة الجمعية.</p>
+      <div class="stats">
+        <div><b id="stCount">0</b>رواية منشورة</div>
+        <div><b id="stGov">0 / 11</b>محافظة مغطاة</div>
+        <div><b id="stMin">0</b>دقيقة مسجّلة</div>
+      </div>
+      <a class="cta" href="#share">شارك رواية</a>
+    </div>
+    <div class="cover">
+      <h2>التغطية حسب المحافظة</h2>
+      <div class="govs" id="govs"></div>
+    </div>
+  </section>
+
+  <div id="setup" class="notice" hidden><b>الأرشيف لم يُربط بقاعدة البيانات بعد.</b> أضيفي عنوان مشروع Supabase ومفتاحه العام في الملف <code>docs/js/ohs-config.js</code> كما في دليل الإعداد.</div>
+
+  <section style="display:grid;grid-template-columns:minmax(0,1fr);gap:12px" aria-label="الروايات">
+    <div class="bar">
+      <input class="search" id="q" type="search" placeholder="ابحث في العناوين والنصوص: فلج، قافلة، سوق…" aria-label="بحث">
+      <div class="topics" id="topics" role="group" aria-label="الموضوعات"></div>
+    </div>
+    <div class="list" id="list"><div class="empty">تُحمَّل الروايات…</div></div>
+  </section>
+
+  <section class="form" id="share">
+    <h2>شارك رواية</h2>
+    <p class="small">سجّل الراوي بهاتفك في مكان هادئ، ثم املأ النموذج. تصل الرواية إلى الجمعية للمراجعة، ولا تظهر للناس إلا بعد اعتمادها.</p>
+    <form id="f" novalidate>
+      <div style="display:grid;gap:22px">
+      <fieldset>
+        <legend>الرواية</legend>
+        <label><span>عنوان الرواية <span class="req">*</span></span><input id="fTitle" maxlength="140" placeholder="مثال: أول رحلة إلى سوق نزوى"></label>
+        <div class="grid2">
+          <label><span>الموضوع <span class="req">*</span></span><select id="fTopic"></select></label>
+          <label>من سجّلها<input id="fBy" maxlength="120" placeholder="مثال: الطالبة مريم، الصف الخامس"></label>
+        </div>
+        <label class="file" id="fileLbl"><span id="fileTxt">اختر التسجيل الصوتي (m4a أو mp3 أو wav، حتى 25 ميجابايت) <span class="req">*</span></span><input type="file" id="fAudio" accept="audio/*,video/mp4,video/webm"></label>
+        <label>النص المكتوب للتسجيل<textarea id="fText" maxlength="20000" placeholder="اكتب كلام الراوي كما قاله، مع توضيح الكلمات المحلية بين قوسين."></textarea></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>الراوي</legend>
+        <div class="grid2">
+          <label><span>الاسم الكامل للراوي <span class="req">*</span></span><input id="fName" maxlength="120" placeholder="مثال: سالم بن علي بن محمد"></label>
+          <label>العمر<input id="fAge" type="number" inputmode="numeric" min="1" max="130" placeholder="مثال: 82"></label>
+          <label><span>المحافظة <span class="req">*</span></span><select id="fGov"></select></label>
+          <label>الولاية أو القرية<input id="fWil" maxlength="80" placeholder="مثال: سمائل"></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="consent">
+        <legend>موافقة الراوي</legend>
+        <p class="statement" id="statement">أوافق أنا الراوي على تسجيل روايتي بصوتي، وعلى أن تحفظها الجمعية التاريخية العُمانية في أرشيف «ذاكرة عُمان الصوتية» وتنشرها للجمهور بعد مراجعتها، وذلك بحسب الخيارات التالية. وأعلم أن لي أن أطلب حذف روايتي في أي وقت بالتواصل مع الجمعية.</p>
+        <label class="check"><input type="checkbox" id="cRecord"><span>أوافق على تسجيل روايتي وحفظها في أرشيف الجمعية <span class="req">*</span></span></label>
+        <label class="check"><input type="checkbox" id="cAudio"><span>أوافق على نشر تسجيلي الصوتي للجمهور <span class="req">*</span></span></label>
+        <label class="check"><input type="checkbox" id="cText" checked><span>أوافق على نشر النص المكتوب لروايتي</span></label>
+        <label class="check"><input type="checkbox" id="cName"><span>أوافق على إظهار اسمي<small>إن لم يُختر يظهر: «راوٍ من» ثم الولاية.</small></span></label>
+        <label class="check"><input type="checkbox" id="cAge"><span>أوافق على إظهار عمري</span></label>
+        <label class="check"><input type="checkbox" id="cEdu" checked><span>أوافق على استخدام روايتي في التعليم والبحث التاريخي</span></label>
+        <div class="grid2">
+          <label><span>اسم من يقرّ بالموافقة <span class="req">*</span></span><input id="fSigned" maxlength="120" placeholder="الاسم كاملاً"></label>
+          <label><span>صفته <span class="req">*</span></span><select id="fRel"><option>الراوي نفسه</option><option>أحد أفراد أسرته بإذنه</option><option>وكيل بإذنه</option></select></label>
+        </div>
+        <label>رقم أو بريد للتواصل (اختياري، لا يُنشر)<input id="fContact" maxlength="120" placeholder="لمراجعة الرواية أو طلب حذفها"></label>
+      </fieldset>
+
+      <div class="foot">
+        <button class="btn" id="send" type="submit">إرسال الرواية للمراجعة</button>
+        <span class="msg" id="msg" role="status"></span>
+      </div>
+      </div>
+    </form>
+  </section>
+</div>
+{{FOOT}}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"></script>
+<script src="js/ohs-config.js"></script>
+<script>
+const GOVS=["مسقط","ظفار","مسندم","البريمي","الداخلية","شمال الباطنة","جنوب الباطنة","جنوب الشرقية","شمال الشرقية","الظاهرة","الوسطى"];
+const TOPICS=["الأفلاج والزراعة","البحر والصيد","الأسواق والتجارة","الحرف والمهن","الأعراس والمناسبات","السفر والقوافل","الكتاتيب والتعليم","الحياة اليومية"];
+const CONSENT_VERSION="1 · أكتوبر 2026";
+const BUCKET="oral-audio";
+const $=id=>document.getElementById(id);
+const S={stories:[],urls:{},gov:null,topic:null,q:""};
+const cfg=window.OHS_SUPABASE||{};
+const sb=(cfg.url&&cfg.key&&window.supabase)?window.supabase.createClient(cfg.url,cfg.key):null;
+
+const fmt=s=>{s=Math.round(+s||0);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
+const norm=s=>(s||"").replace(/[ًٌٍَُِّْ]/g,"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي");
+function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+
+function renderStats(){
+  $("stCount").textContent=S.stories.length;
+  $("stGov").textContent=new Set(S.stories.map(s=>s.governorate)).size+" / 11";
+  $("stMin").textContent=Math.round(S.stories.reduce((a,s)=>a+(s.duration_sec||0),0)/60);
+}
+function renderGovs(){
+  const box=$("govs");box.textContent="";
+  GOVS.forEach(g=>{const c=S.stories.filter(s=>s.governorate===g).length;
+    const b=el("button","gov"+(c?" has":""));b.type="button";b.setAttribute("aria-pressed",String(S.gov===g));
+    b.append(el("span",null,g),el("span","c",c));b.onclick=()=>{S.gov=S.gov===g?null:g;renderGovs();renderList()};box.append(b)});
+}
+function renderTopics(){
+  const box=$("topics");box.textContent="";
+  [null,...TOPICS].forEach(t=>{const b=el("button","chip",t??"كل الموضوعات");b.type="button";b.setAttribute("aria-pressed",String(S.topic===t));
+    b.onclick=()=>{S.topic=t;renderTopics();renderList()};box.append(b)});
+}
+function renderList(){
+  const list=$("list");list.textContent="";
+  if(!sb){list.append(el("div","empty","ستظهر الروايات هنا بعد ربط الأرشيف."));return}
+  const q=norm(S.q.trim());
+  const items=S.stories.filter(s=>(!S.gov||s.governorate===S.gov)&&(!S.topic||s.topic===S.topic)&&(!q||norm([s.title,s.transcript,s.narrator_display,s.wilayah].join(" ")).includes(q)));
+  if(!S.stories.length){list.append(el("div","empty","لم تُنشر روايات بعد. كن أول من يشارك رواية من أسفل الصفحة."));return}
+  if(!items.length){list.append(el("div","empty","لا توجد روايات تطابق هذا البحث."));return}
+  items.forEach(s=>{
+    const a=el("article","story");
+    a.append(el("h3","stitle",s.title));
+    const m=el("div","smeta");
+    m.append(el("span",null,s.narrator_display+(s.narrator_age?`، ${s.narrator_age} عاماً`:"")),el("span",null,[s.wilayah,s.governorate].filter(Boolean).join("، ")),el("span","tag",s.topic));
+    if(s.duration_sec)m.append(el("span",null,fmt(s.duration_sec)));
+    a.append(m);
+    const au=document.createElement("audio");au.controls=true;au.preload="none";
+    if(S.urls[s.audio_path])au.src=S.urls[s.audio_path];a.append(au);
+    if(s.transcript){const d=document.createElement("details");d.append(el("summary",null,"النص المكتوب"),el("p","transcript",s.transcript));a.append(d)}
+    if(s.recorded_by)a.append(el("p","small","سجّلها: "+s.recorded_by));
+    list.append(a);
+  });
+}
+async function load(){
+  renderTopics();renderGovs();
+  if(!sb){$("setup").hidden=false;renderList();return}
+  const {data,error}=await sb.from("stories").select("id,created_at,title,narrator_display,narrator_age,governorate,wilayah,topic,transcript,recorded_by,audio_path,duration_sec").eq("status","approved").order("created_at",{ascending:false});
+  if(error){$("list").textContent="";$("list").append(el("div","empty","تعذّر تحميل الروايات الآن. حاول لاحقاً."));return}
+  S.stories=data||[];
+  if(S.stories.length){
+    const {data:signed}=await sb.storage.from(BUCKET).createSignedUrls(S.stories.map(s=>s.audio_path),60*60*6);
+    (signed||[]).forEach(x=>{if(x.signedUrl)S.urls[x.path]=x.signedUrl});
+  }
+  renderStats();renderGovs();renderList();
+}
+
+/* ---------- submission ---------- */
+function fill(sel,opts,ph){sel.textContent="";const o=el("option",null,ph);o.value="";sel.append(o);opts.forEach(v=>{const x=el("option",null,v);x.value=v;sel.append(x)})}
+fill($("fTopic"),TOPICS,"اختر الموضوع");fill($("fGov"),GOVS,"اختر المحافظة");
+$("fAudio").addEventListener("change",()=>{const f=$("fAudio").files[0];$("fileTxt").textContent=f?`تم اختيار: ${f.name} (${(f.size/1048576).toFixed(1)} ميجابايت)`:"اختر التسجيل الصوتي (m4a أو mp3 أو wav، حتى 25 ميجابايت)"});
+$("fName").addEventListener("input",()=>{if($("fRel").value==="الراوي نفسه")$("fSigned").value=$("fName").value});
+function duration(file){return new Promise(res=>{const a=document.createElement("audio");a.preload="metadata";const u=URL.createObjectURL(file);
+  const done=v=>{URL.revokeObjectURL(u);res(v)};a.onloadedmetadata=()=>done(isFinite(a.duration)?Math.round(a.duration):null);a.onerror=()=>done(null);a.src=u;setTimeout(()=>done(null),6000)})}
+const EXT={"audio/mp4":"m4a","audio/x-m4a":"m4a","audio/m4a":"m4a","audio/mpeg":"mp3","audio/mp3":"mp3","audio/wav":"wav","audio/x-wav":"wav","audio/webm":"webm","audio/ogg":"ogg","audio/aac":"aac","video/mp4":"mp4","video/webm":"webm"};
+function extOf(f){const e=(f.name.split(".").pop()||"").toLowerCase();if(["m4a","mp3","wav","webm","ogg","aac","mp4"].includes(e))return e;return EXT[f.type]||null}
+function typeOf(f,ext){if(EXT[f.type])return f.type;return({m4a:"audio/mp4",mp3:"audio/mpeg",wav:"audio/wav",webm:"audio/webm",ogg:"audio/ogg",aac:"audio/aac",mp4:"video/mp4"})[ext]}
+function say(t,cls){const m=$("msg");m.className="msg"+(cls?" "+cls:"");m.textContent=t}
+$("f").addEventListener("submit",async ev=>{
+  ev.preventDefault();
+  if(!sb){say("الأرشيف لم يُربط بقاعدة البيانات بعد.","err");return}
+  const f=$("fAudio").files[0];
+  const miss=[["fTitle","العنوان"],["fTopic","الموضوع"],["fName","اسم الراوي"],["fGov","المحافظة"],["fSigned","اسم من يقرّ بالموافقة"]].filter(([id])=>!$(id).value.trim()).map(x=>x[1]);
+  if(!f)miss.push("التسجيل الصوتي");
+  if(miss.length){say("أكمل: "+miss.join("، "),"err");return}
+  if(!$("cRecord").checked||!$("cAudio").checked){say("لا يمكن حفظ الرواية دون موافقة الراوي على التسجيل ونشر الصوت.","err");return}
+  if(f.size>25*1048576){say("الملف أكبر من 25 ميجابايت. قصّ التسجيل أو احفظه بجودة أقل.","err");return}
+  const ext=extOf(f);if(!ext){say("صيغة الملف غير مدعومة. استخدم m4a أو mp3 أو wav.","err");return}
+  const age=$("fAge").value.trim();if(age&&!(+age>=1&&+age<=130)){say("العمر غير صحيح.","err");return}
+  $("send").disabled=true;say("يُرفع التسجيل… لا تغلق الصفحة.");
+  try{
+    const id=crypto.randomUUID();const path=`pending/${id}.${ext}`;const type=typeOf(f,ext);
+    const dur=await duration(f);
+    const up=await sb.storage.from(BUCKET).upload(path,f,{contentType:type,upsert:false});
+    if(up.error)throw {step:"upload",e:up.error};
+    say("يُحفظ النموذج…");
+    const {error}=await sb.rpc("submit_story",{p:{
+      title:$("fTitle").value,topic:$("fTopic").value,recorded_by:$("fBy").value,transcript:$("fText").value,
+      narrator_full_name:$("fName").value,narrator_age:age,governorate:$("fGov").value,wilayah:$("fWil").value,
+      audio_path:path,audio_type:type,duration_sec:dur==null?"":String(dur),
+      consent_record:$("cRecord").checked,consent_publish_audio:$("cAudio").checked,consent_publish_transcript:$("cText").checked,
+      consent_show_name:$("cName").checked,consent_show_age:$("cAge").checked,consent_education_use:$("cEdu").checked,
+      signed_by:$("fSigned").value,signer_relation:$("fRel").value,contact:$("fContact").value,consent_version:CONSENT_VERSION}});
+    if(error)throw {step:"save",e:error};
+    $("f").reset();$("fileTxt").textContent="اختر التسجيل الصوتي (m4a أو mp3 أو wav، حتى 25 ميجابايت)";$("cText").checked=true;$("cEdu").checked=true;
+    say("وصلت الرواية إلى الجمعية، شكراً لك. ستظهر في الأرشيف بعد مراجعتها.","ok");
+  }catch(x){
+    const m=(x&&x.e&&x.e.message)||"";
+    say(x&&x.step==="upload"?(/size|large/i.test(m)?"الملف أكبر من المسموح.":/mime|type/i.test(m)?"صيغة الملف غير مدعومة.":"تعذّر رفع التسجيل. تحقق من الاتصال وحاول مرة أخرى."):
+        /consent_required/.test(m)?"موافقة الراوي على التسجيل ونشر الصوت مطلوبة.":"تعذّر حفظ النموذج. حاول مرة أخرى.","err");
+  }finally{$("send").disabled=false}
+});
+$("q").addEventListener("input",()=>{S.q=$("q").value;renderList()});
+load();
+</script>

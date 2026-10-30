@@ -52,87 +52,73 @@ a{color:var(--orange-ink)}
 .ohs-foot{max-width:1100px;margin:28px auto 0;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between}
 
 </style>
-<style>/* Layout: an archive shelf — header with coverage of the 11 governorates, filters, then tape-like story cards */
-:root{--danger:#b3261e}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--danger:#ef8a80}}
-:root[data-theme="dark"]{--danger:#ef8a80}
-
-.wrap{max-width:1100px;margin:0 auto;display:grid;gap:26px}
+<style>
+/* Layout: an archive shelf — coverage of the 11 governorates up top, approved stories as tape cards, then the submission + consent form */
+:root{--ok:#1f6b45;--bad:#b3261e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#6fcf97;--bad:#ef8a80}}
+:root[data-theme="dark"]{--ok:#6fcf97;--bad:#ef8a80}
+.wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:26px}
+@media (max-width:480px){.govs{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 .hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px;align-items:end}
-@media (max-width:760px){.hero{grid-template-columns:1fr}}
-h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,7vw,56px);line-height:1.15;margin:0;color:var(--ink);text-wrap:balance}
-.lead{margin:8px 0 0;color:var(--muted);max-width:52ch}
-.heroWave{display:block;width:100%;height:46px;margin-top:14px}
-.stats{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;font-size:13px;color:var(--muted)}
+@media (max-width:760px){.hero{grid-template-columns:minmax(0,1fr)}}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(32px,7vw,52px);line-height:1.2;margin:0;text-wrap:balance}
+.lead{margin:8px 0 0;color:var(--muted);max-width:56ch}
+.stats{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:var(--muted)}
 .stats b{display:block;font-family:var(--display);font-size:26px;color:var(--ink);line-height:1.2;font-variant-numeric:tabular-nums}
-.cover{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px}
-.cover h2{font-size:13px;font-weight:500;margin:0 0 10px;color:var(--muted);letter-spacing:.02em}
+.cta{display:inline-block;margin-top:14px;font-weight:600;text-decoration:none;background:var(--orange);color:var(--on-orange);border-radius:8px;padding:10px 18px}
+.cover{border:1px solid var(--line);border-radius:10px;padding:14px}
+.cover h2{font-size:13px;font-weight:500;margin:0 0 10px;color:var(--muted)}
 .govs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-.gov{font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);padding:6px 8px;cursor:pointer;text-align:right;display:flex;justify-content:space-between;gap:6px;min-height:36px;align-items:center}
+.gov{font:inherit;font-size:12.5px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);padding:6px 8px;cursor:pointer;display:flex;justify-content:space-between;gap:6px;min-height:36px;align-items:center;text-align:right}
 .gov .c{font-family:var(--mono);font-size:12px;color:var(--muted)}
 .gov.has{background:var(--orange-soft);border-color:transparent}
-.gov.has .c{color:var(--ink)}
-.gov[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:-2px}
-
+.gov.has .c{color:var(--orange-ink)}
+.gov[aria-pressed="true"]{outline:2px solid var(--orange);outline-offset:-2px}
 .bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.search{flex:1 1 220px;font:inherit;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);padding:9px 12px;min-height:42px}
+.search{flex:1 1 220px;font:inherit;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);padding:9px 12px;min-height:42px}
 .topics{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;flex:1 1 100%}
 .chip{flex:0 0 auto;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);padding:5px 12px;cursor:pointer;min-height:34px}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.gov:focus-visible{outline:2px solid var(--orange-ink);outline-offset:2px}
-.btn{font:inherit;font-size:14px;border-radius:8px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);padding:9px 16px;cursor:pointer;min-height:42px}
-.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
-.btn:disabled{opacity:.55;cursor:default}
-
 .list{display:grid;gap:14px}
-.story{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px}
-.story.sample{border-style:dashed}
-.shead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center}
-.play{width:52px;height:52px;border-radius:50%;border:0;background:var(--ink);color:var(--paper);cursor:pointer;display:grid;place-items:center}
-.play:disabled{background:var(--line);cursor:default}
-.play svg{width:20px;height:20px}
-.stitle{font-family:var(--display);font-weight:500;font-size:20px;line-height:1.4;margin:0;text-wrap:balance}
+.story{border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px}
+.stitle{font-family:var(--display);font-weight:700;font-size:19px;line-height:1.5;margin:0}
 .smeta{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 12px}
-.tag{font-size:12px;background:var(--orange-soft);color:var(--ink);border-radius:4px;padding:1px 8px}
-.tag.ex{background:transparent;border:1px dashed var(--orange-ink);color:var(--orange-ink)}
-.wave{display:block;width:100%;height:40px;cursor:pointer}
-.time{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;direction:ltr}
-details summary{cursor:pointer;font-size:13.5px;color:var(--ink);width:max-content}
-.transcript{margin:8px 0 0;white-space:pre-wrap;max-width:68ch;line-height:1.95}
-.sfoot{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;font-size:12.5px;color:var(--muted);align-items:center}
-.del{font:inherit;font-size:12.5px;background:none;border:0;color:var(--danger);cursor:pointer;padding:4px 6px}
-
-.empty{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px}
-.empty h3{font-family:var(--display);font-size:20px;margin:0}
-.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0;padding:0;list-style:none;counter-reset:s}
-@media (max-width:640px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.steps li{counter-increment:s;background:var(--surface);border-radius:8px;padding:10px;font-size:13.5px}
-.steps li::before{content:counter(s);display:block;font-family:var(--display);font-size:22px;color:var(--orange-ink);line-height:1.2}
-
-/* add form */
-.add{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:12px}
-.add h2{font-family:var(--display);font-size:22px;margin:0}
+.tag{font-size:12px;background:var(--orange-soft);color:var(--orange-ink);border-radius:4px;padding:1px 8px}
+audio{width:100%;height:40px}
+details summary{cursor:pointer;font-size:13.5px;color:var(--orange-ink);width:max-content}
+.transcript{margin:8px 0 0;white-space:pre-wrap;max-width:68ch;line-height:1.95;font-family:var(--read);font-size:16px}
+.empty,.notice{border:1px dashed var(--line);border-radius:10px;padding:18px;color:var(--muted)}
+.notice b{color:var(--ink)}
+/* form */
+.form{border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:18px}
+.form h2{font-family:var(--display);font-size:24px;margin:0}
+fieldset{border:0;padding:0;margin:0;display:grid;gap:12px;min-width:0}
+label>input,label>select,label>textarea{min-width:0}
+legend{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:8px;color:var(--orange-ink)}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 @media (max-width:640px){.grid2{grid-template-columns:1fr}}
 label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
 input,select,textarea{font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;min-height:42px;width:100%}
 textarea{min-height:120px;resize:vertical;line-height:1.8}
-.file{border:1.5px dashed var(--ink);border-radius:10px;padding:14px;text-align:center;color:var(--ink);font-size:14px;cursor:pointer;background:var(--orange-soft)}
+.req{color:var(--bad)}
+.file{border:1.5px dashed var(--orange);border-radius:10px;padding:16px;text-align:center;color:var(--ink);font-size:14px;cursor:pointer;background:var(--orange-soft)}
 .file input{display:none}
-.formfoot{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.msg{font-size:13px;color:var(--muted)}
-.msg.err{color:var(--danger)}
-.consent{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--ink)}
-.consent input{width:auto;min-height:0;margin-top:5px}
-footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
-
-.play{background:var(--orange)!important;color:var(--on-orange)!important}.play:disabled{background:var(--line)!important}
-.gov.has .c{color:var(--orange-ink)}
-h1{color:var(--ink)}
+.consent{background:var(--surface);border-radius:10px;padding:14px 16px;display:grid;gap:10px}
+.consent legend{float:right;width:100%;margin-bottom:4px}
+.consent .statement{font-family:var(--read);font-size:15.5px;line-height:1.95;color:var(--ink);margin:0}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink)}
+.check input{width:20px;height:20px;min-height:0;margin-top:3px;flex:0 0 auto;accent-color:var(--orange)}
+.check small{display:block;color:var(--muted);font-size:12.5px}
+.btn{font:inherit;font-size:15px;font-weight:600;border-radius:8px;border:0;background:var(--ink);color:var(--paper);padding:11px 22px;cursor:pointer;min-height:46px}
+.btn:disabled{opacity:.55;cursor:default}
+.foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.msg{font-size:14px;color:var(--muted)}
+.msg.err{color:var(--bad)}
+.msg.ok{color:var(--ok);font-weight:600}
+.small{font-size:12.5px;color:var(--muted);margin:0}
 </style>
 </head>
 <body>
-
 
 <div dir="rtl" lang="ar">
 <header class="ohs-bar"><a class="ohs-id" href="index.html"><img class="logo-light" src="assets/logo-mark-light.png" alt="" height="44"><img class="logo-dark" src="assets/logo-mark-dark.png" alt="" height="44"><span><b>الجمعية التاريخية العُمانية</b><small>The Historical Association of Oman</small></span></a><nav class="ohs-nav" aria-label="مشاريع الجمعية"><a href="index.html">الرئيسية</a><a href="majlis.html">مجلس التاريخ</a><a href="on-this-day.html">حدث في مثل هذا اليوم</a><a href="oral-history.html" aria-current="page">الذاكرة الصوتية</a><a href="sources.html">مصادر عُمان في العالم</a></nav></header>
@@ -140,13 +126,13 @@ h1{color:var(--ink)}
   <section class="hero">
     <div>
       <h1>ذاكرة عُمان الصوتية</h1>
-      <p class="lead">أرشيف لحكايات كبار السن بأصواتهم: الأفلاج والأسواق والسفر والمهن القديمة، مرتبة حسب المحافظة والولاية، مع نص مكتوب لكل تسجيل.</p>
-      <svg class="heroWave" id="heroWave" viewBox="0 0 600 46" preserveAspectRatio="none" aria-hidden="true"></svg>
+      <p class="lead">أرشيف الجمعية التاريخية العُمانية لحكايات كبار السن بأصواتهم: الأفلاج والأسواق والسفر والمهن القديمة، مع نص مكتوب لكل تسجيل. تُنشر كل رواية بموافقة راويها وبعد مراجعة الجمعية.</p>
       <div class="stats">
-        <div><b id="stCount">0</b>رواية</div>
+        <div><b id="stCount">0</b>رواية منشورة</div>
         <div><b id="stGov">0 / 11</b>محافظة مغطاة</div>
         <div><b id="stMin">0</b>دقيقة مسجّلة</div>
       </div>
+      <a class="cta" href="#share">شارك رواية</a>
     </div>
     <div class="cover">
       <h2>التغطية حسب المحافظة</h2>
@@ -154,242 +140,181 @@ h1{color:var(--ink)}
     </div>
   </section>
 
-  <section class="add" id="addPanel" hidden>
-    <h2>إضافة رواية</h2>
-    <form id="addForm" class="grid2" novalidate>
-      <label style="grid-column:1/-1">عنوان الرواية
-        <input id="fTitle" required maxlength="120" placeholder="مثال: أول رحلة إلى سوق نزوى">
-      </label>
-      <label>اسم الراوي (أو وصفه إن فضّل عدم ذكر اسمه)
-        <input id="fNarr" required maxlength="80" placeholder="مثال: الوالد سالم بن علي">
-      </label>
-      <label>عمر الراوي تقريباً
-        <input id="fAge" inputmode="numeric" maxlength="3" placeholder="مثال: 82">
-      </label>
-      <label>المحافظة
-        <select id="fGov" required></select>
-      </label>
-      <label>الولاية أو القرية
-        <input id="fWil" maxlength="60" placeholder="مثال: سمائل">
-      </label>
-      <label>الموضوع
-        <select id="fTopic" required></select>
-      </label>
-      <label>سجّلها
-        <input id="fBy" maxlength="80" placeholder="مثال: الطالبة مريم، الصف الخامس">
-      </label>
-      <label class="file" style="grid-column:1/-1" id="fileLbl">
-        <span id="fileTxt">اختر التسجيل الصوتي من الهاتف (m4a أو mp4 أو webm)</span>
-        <input type="file" id="fAudio" accept="audio/*,video/mp4,video/webm">
-      </label>
-      <label style="grid-column:1/-1">النص المكتوب للتسجيل
-        <textarea id="fText" placeholder="اكتب كلام الراوي كما قاله، مع توضيح الكلمات المحلية بين قوسين."></textarea>
-      </label>
-      <label class="consent" style="grid-column:1/-1"><input type="checkbox" id="fConsent"> <span>وافق الراوي (أو ذووه) على تسجيل الرواية ونشرها في الأرشيف.</span></label>
-      <div class="formfoot" style="grid-column:1/-1">
-        <button class="btn" id="saveBtn" type="submit">حفظ في الأرشيف</button>
-        <span class="msg" id="formMsg" role="status"></span>
+  <div id="setup" class="notice" hidden><b>الأرشيف لم يُربط بقاعدة البيانات بعد.</b> أضيفي عنوان مشروع Supabase ومفتاحه العام في الملف <code>docs/js/ohs-config.js</code> كما في دليل الإعداد.</div>
+
+  <section style="display:grid;grid-template-columns:minmax(0,1fr);gap:12px" aria-label="الروايات">
+    <div class="bar">
+      <input class="search" id="q" type="search" placeholder="ابحث في العناوين والنصوص: فلج، قافلة، سوق…" aria-label="بحث">
+      <div class="topics" id="topics" role="group" aria-label="الموضوعات"></div>
+    </div>
+    <div class="list" id="list"><div class="empty">تُحمَّل الروايات…</div></div>
+  </section>
+
+  <section class="form" id="share">
+    <h2>شارك رواية</h2>
+    <p class="small">سجّل الراوي بهاتفك في مكان هادئ، ثم املأ النموذج. تصل الرواية إلى الجمعية للمراجعة، ولا تظهر للناس إلا بعد اعتمادها.</p>
+    <form id="f" novalidate>
+      <div style="display:grid;gap:22px">
+      <fieldset>
+        <legend>الرواية</legend>
+        <label><span>عنوان الرواية <span class="req">*</span></span><input id="fTitle" maxlength="140" placeholder="مثال: أول رحلة إلى سوق نزوى"></label>
+        <div class="grid2">
+          <label><span>الموضوع <span class="req">*</span></span><select id="fTopic"></select></label>
+          <label>من سجّلها<input id="fBy" maxlength="120" placeholder="مثال: الطالبة مريم، الصف الخامس"></label>
+        </div>
+        <label class="file" id="fileLbl"><span id="fileTxt">اختر التسجيل الصوتي (m4a أو mp3 أو wav، حتى 25 ميجابايت) <span class="req">*</span></span><input type="file" id="fAudio" accept="audio/*,video/mp4,video/webm"></label>
+        <label>النص المكتوب للتسجيل<textarea id="fText" maxlength="20000" placeholder="اكتب كلام الراوي كما قاله، مع توضيح الكلمات المحلية بين قوسين."></textarea></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>الراوي</legend>
+        <div class="grid2">
+          <label><span>الاسم الكامل للراوي <span class="req">*</span></span><input id="fName" maxlength="120" placeholder="مثال: سالم بن علي بن محمد"></label>
+          <label>العمر<input id="fAge" type="number" inputmode="numeric" min="1" max="130" placeholder="مثال: 82"></label>
+          <label><span>المحافظة <span class="req">*</span></span><select id="fGov"></select></label>
+          <label>الولاية أو القرية<input id="fWil" maxlength="80" placeholder="مثال: سمائل"></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="consent">
+        <legend>موافقة الراوي</legend>
+        <p class="statement" id="statement">أوافق أنا الراوي على تسجيل روايتي بصوتي، وعلى أن تحفظها الجمعية التاريخية العُمانية في أرشيف «ذاكرة عُمان الصوتية» وتنشرها للجمهور بعد مراجعتها، وذلك بحسب الخيارات التالية. وأعلم أن لي أن أطلب حذف روايتي في أي وقت بالتواصل مع الجمعية.</p>
+        <label class="check"><input type="checkbox" id="cRecord"><span>أوافق على تسجيل روايتي وحفظها في أرشيف الجمعية <span class="req">*</span></span></label>
+        <label class="check"><input type="checkbox" id="cAudio"><span>أوافق على نشر تسجيلي الصوتي للجمهور <span class="req">*</span></span></label>
+        <label class="check"><input type="checkbox" id="cText" checked><span>أوافق على نشر النص المكتوب لروايتي</span></label>
+        <label class="check"><input type="checkbox" id="cName"><span>أوافق على إظهار اسمي<small>إن لم يُختر يظهر: «راوٍ من» ثم الولاية.</small></span></label>
+        <label class="check"><input type="checkbox" id="cAge"><span>أوافق على إظهار عمري</span></label>
+        <label class="check"><input type="checkbox" id="cEdu" checked><span>أوافق على استخدام روايتي في التعليم والبحث التاريخي</span></label>
+        <div class="grid2">
+          <label><span>اسم من يقرّ بالموافقة <span class="req">*</span></span><input id="fSigned" maxlength="120" placeholder="الاسم كاملاً"></label>
+          <label><span>صفته <span class="req">*</span></span><select id="fRel"><option>الراوي نفسه</option><option>أحد أفراد أسرته بإذنه</option><option>وكيل بإذنه</option></select></label>
+        </div>
+        <label>رقم أو بريد للتواصل (اختياري، لا يُنشر)<input id="fContact" maxlength="120" placeholder="لمراجعة الرواية أو طلب حذفها"></label>
+      </fieldset>
+
+      <div class="foot">
+        <button class="btn" id="send" type="submit">إرسال الرواية للمراجعة</button>
+        <span class="msg" id="msg" role="status"></span>
+      </div>
       </div>
     </form>
   </section>
-
-  <section style="display:grid;gap:12px">
-    <div class="bar">
-      <input class="search" id="q" type="search" placeholder="ابحث في العناوين والنصوص: فلج، قافلة، سوق…" aria-label="بحث">
-      <button class="btn ghost" id="toggleAdd" type="button" hidden>+ إضافة رواية</button>
-      <div class="topics" id="topics" role="group" aria-label="الموضوعات"></div>
-    </div>
-    <div class="list" id="list"></div>
-  </section>
-
-  <p class="msg">يضيف أصحاب صلاحية التحرير الروايات إلى الأرشيف. احرص على موافقة الراوي قبل النشر، ولا تُدرج بيانات خاصة كأرقام الهواتف أو العناوين.</p>
-  <audio id="player" preload="none"></audio>
 </div>
 <footer class="ohs-foot"><span>الجمعية التاريخية العُمانية · مشاريع رقمية تعليمية</span><span>التواريخ والمعلومات قابلة للمراجعة، ويُرحَّب بالتصويب.</span></footer>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"></script>
+<script src="js/ohs-config.js"></script>
 <script>
 const GOVS=["مسقط","ظفار","مسندم","البريمي","الداخلية","شمال الباطنة","جنوب الباطنة","جنوب الشرقية","شمال الشرقية","الظاهرة","الوسطى"];
 const TOPICS=["الأفلاج والزراعة","البحر والصيد","الأسواق والتجارة","الحرف والمهن","الأعراس والمناسبات","السفر والقوافل","الكتاتيب والتعليم","الحياة اليومية"];
+const CONSENT_VERSION="1 · أكتوبر 2026";
+const BUCKET="oral-audio";
 const $=id=>document.getElementById(id);
-const S={stories:[],gov:null,topic:null,q:"",playing:null,canEdit:false,db:null,assets:null,user:null,pendingDel:null};
-const ICON_PLAY='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15 10 6 4.5v11z" fill="currentColor"/></svg>';
-const ICON_PAUSE='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 4h3.5v12H5zM11.5 4H15v12h-3.5z" fill="currentColor"/></svg>';
+const S={stories:[],urls:{},gov:null,topic:null,q:""};
+const cfg=window.OHS_SUPABASE||{};
+const sb=(cfg.url&&cfg.key&&window.supabase)?window.supabase.createClient(cfg.url,cfg.key):null;
 
-/* deterministic waveform from an id */
-function bars(seed,n){let h=0;for(const ch of seed)h=(h*31+ch.charCodeAt(0))>>>0;const out=[];
-  for(let i=0;i<n;i++){h=(h*1103515245+12345)>>>0;const r=(h>>>8)/16777216;const env=0.55+0.45*Math.sin(i/n*Math.PI);out.push(0.15+0.85*r*env)}return out}
-function waveSVG(svg,seed,n,progress){
-  const W=600,H=+svg.getAttribute("viewBox").split(" ")[3];const bw=W/n;const b=bars(seed,n);let s="";
-  b.forEach((v,i)=>{const h=Math.max(3,v*H);const x=W-(i+1)*bw; // RTL: start from the right
-    const on=progress!=null&&(i/n)<progress;
-    s+=`<rect x="${(x+bw*0.2).toFixed(1)}" y="${((H-h)/2).toFixed(1)}" width="${(bw*0.6).toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" fill="${on?"var(--orange)":"var(--line)"}"/>`});
-  svg.innerHTML=s;
-}
-const fmt=s=>{if(!isFinite(s)||s<0)s=0;s=Math.round(s);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
+const fmt=s=>{s=Math.round(+s||0);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
+const norm=s=>(s||"").replace(/[ًٌٍَُِّْ]/g,"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي");
+function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
 
 function renderStats(){
-  const st=S.stories;$("stCount").textContent=st.length;
-  const g=new Set(st.map(s=>s.gov));$("stGov").textContent=g.size+" / 11";
-  $("stMin").textContent=Math.round(st.reduce((a,s)=>a+(+s.duration||0),0)/60);
+  $("stCount").textContent=S.stories.length;
+  $("stGov").textContent=new Set(S.stories.map(s=>s.governorate)).size+" / 11";
+  $("stMin").textContent=Math.round(S.stories.reduce((a,s)=>a+(s.duration_sec||0),0)/60);
 }
 function renderGovs(){
   const box=$("govs");box.textContent="";
-  GOVS.forEach(g=>{const c=S.stories.filter(s=>s.gov===g).length;
-    const b=document.createElement("button");b.type="button";b.className="gov"+(c?" has":"");b.setAttribute("aria-pressed",String(S.gov===g));
-    const n=document.createElement("span");n.textContent=g;const k=document.createElement("span");k.className="c";k.textContent=c;b.append(n,k);
-    b.onclick=()=>{S.gov=S.gov===g?null:g;renderGovs();renderList()};box.append(b)});
+  GOVS.forEach(g=>{const c=S.stories.filter(s=>s.governorate===g).length;
+    const b=el("button","gov"+(c?" has":""));b.type="button";b.setAttribute("aria-pressed",String(S.gov===g));
+    b.append(el("span",null,g),el("span","c",c));b.onclick=()=>{S.gov=S.gov===g?null:g;renderGovs();renderList()};box.append(b)});
 }
 function renderTopics(){
   const box=$("topics");box.textContent="";
-  [null,...TOPICS].forEach(t=>{const b=document.createElement("button");b.type="button";b.className="chip";b.textContent=t??"كل الموضوعات";
-    b.setAttribute("aria-pressed",String(S.topic===t));b.onclick=()=>{S.topic=t;renderTopics();renderList()};box.append(b)});
-}
-function filtered(){
-  const q=S.q.trim();
-  return S.stories.filter(s=>(!S.gov||s.gov===S.gov)&&(!S.topic||s.topic===S.topic)&&(!q||[s.title,s.text,s.narrator,s.wilayah].join(" ").includes(q)))
-    .sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-}
-function storyCard(s,isSample){
-  const card=document.createElement("article");card.className="story"+(isSample?" sample":"");card.id="s-"+s.id;
-  const head=document.createElement("div");head.className="shead";
-  const play=document.createElement("button");play.type="button";play.className="play";play.innerHTML=ICON_PLAY;
-  play.setAttribute("aria-label","تشغيل "+s.title);
-  if(isSample||!(s.audio||s.audioUrl)){play.disabled=true}
-  const t=document.createElement("div");
-  const h=document.createElement("h3");h.className="stitle";h.textContent=s.title;
-  const m=document.createElement("div");m.className="smeta";
-  const nm=document.createElement("span");nm.textContent=s.narrator+(s.age?`، ${s.age} عاماً`:"");
-  const pl=document.createElement("span");pl.textContent=[s.wilayah,s.gov].filter(Boolean).join("، ");
-  const tg=document.createElement("span");tg.className="tag";tg.textContent=s.topic;
-  m.append(nm,pl,tg);
-  if(isSample){const ex=document.createElement("span");ex.className="tag ex";ex.textContent="مثال للعرض";m.append(ex)}
-  t.append(h,m);head.append(play,t);
-  const wv=document.createElementNS("http://www.w3.org/2000/svg","svg");wv.setAttribute("class","wave");wv.setAttribute("viewBox","0 0 600 40");wv.setAttribute("preserveAspectRatio","none");
-  waveSVG(wv,s.id,64,null);
-  const tm=document.createElement("div");tm.className="time";const t0=document.createElement("span");t0.textContent="0:00";const t1=document.createElement("span");t1.textContent=fmt(+s.duration||0);tm.append(t0,t1);
-  card.append(head,wv,tm);
-  if(s.text){const d=document.createElement("details");const su=document.createElement("summary");su.textContent="النص المكتوب";const p=document.createElement("p");p.className="transcript";p.textContent=s.text;d.append(su,p);card.append(d)}
-  const f=document.createElement("div");f.className="sfoot";
-  if(s.recordedBy){const r=document.createElement("span");r.textContent="سجّلها: "+s.recordedBy;f.append(r)}
-  if(S.canEdit&&!isSample){
-    const del=document.createElement("button");del.type="button";del.className="del";
-    const armed=S.pendingDel===s.id;del.textContent=armed?"اضغط مرة أخرى لتأكيد الحذف":"حذف";
-    del.onclick=()=>armed?removeStory(s):(S.pendingDel=s.id,renderList());f.append(del)}
-  if(f.childNodes.length)card.append(f);
-  if(!isSample&&(s.audio||s.audioUrl)){
-    const toggle=()=>togglePlay(s,play,wv,t0);
-    play.onclick=toggle;
-    wv.addEventListener("click",ev=>{ // seek (RTL)
-      const r=wv.getBoundingClientRect();const frac=(r.right-ev.clientX)/r.width;
-      if(S.playing!==s.id)togglePlay(s,play,wv,t0,frac);else{const a=$("player");if(isFinite(a.duration))a.currentTime=frac*a.duration}});
-  }
-  return card;
+  [null,...TOPICS].forEach(t=>{const b=el("button","chip",t??"كل الموضوعات");b.type="button";b.setAttribute("aria-pressed",String(S.topic===t));
+    b.onclick=()=>{S.topic=t;renderTopics();renderList()};box.append(b)});
 }
 function renderList(){
   const list=$("list");list.textContent="";
-  const items=filtered();
-  if(!S.stories.length){
-    const e=document.createElement("div");e.className="empty";
-    const h=document.createElement("h3");h.textContent="الأرشيف ينتظر أول رواية";
-    const p=document.createElement("p");p.style.margin="0";p.style.color="var(--muted)";
-    p.textContent=S.canEdit?"أضف أول تسجيل من زر «إضافة رواية». هكذا تبدو الرواية بعد نشرها:":"لم تُنشر روايات بعد. هكذا ستبدو الرواية عند نشرها:";
-    const ol=document.createElement("ol");ol.className="steps";
-    ["سجّل الراوي بهاتفك في مكان هادئ","اكتب ما قاله كما هو","اختر المحافظة والموضوع","انشره ليُحفظ في الأرشيف"].forEach(x=>{const li=document.createElement("li");li.textContent=x;ol.append(li)});
-    e.append(h,ol,p);list.append(e);
-    list.append(storyCard({id:"sample-1",title:"الطريق إلى سوق الجمعة قبل السيارات",narrator:"اسم الراوي",age:"",gov:"الداخلية",wilayah:"اسم الولاية",topic:"الأسواق والتجارة",duration:252,recordedBy:"اسم الطالب أو المعلم",text:"هنا يظهر نص الرواية مكتوباً كما قالها الراوي، ليقرأه من لا يستطيع الاستماع، وليسهل البحث فيه."},true));
-    return;
+  if(!sb){list.append(el("div","empty","ستظهر الروايات هنا بعد ربط الأرشيف."));return}
+  const q=norm(S.q.trim());
+  const items=S.stories.filter(s=>(!S.gov||s.governorate===S.gov)&&(!S.topic||s.topic===S.topic)&&(!q||norm([s.title,s.transcript,s.narrator_display,s.wilayah].join(" ")).includes(q)));
+  if(!S.stories.length){list.append(el("div","empty","لم تُنشر روايات بعد. كن أول من يشارك رواية من أسفل الصفحة."));return}
+  if(!items.length){list.append(el("div","empty","لا توجد روايات تطابق هذا البحث."));return}
+  items.forEach(s=>{
+    const a=el("article","story");
+    a.append(el("h3","stitle",s.title));
+    const m=el("div","smeta");
+    m.append(el("span",null,s.narrator_display+(s.narrator_age?`، ${s.narrator_age} عاماً`:"")),el("span",null,[s.wilayah,s.governorate].filter(Boolean).join("، ")),el("span","tag",s.topic));
+    if(s.duration_sec)m.append(el("span",null,fmt(s.duration_sec)));
+    a.append(m);
+    const au=document.createElement("audio");au.controls=true;au.preload="none";
+    if(S.urls[s.audio_path])au.src=S.urls[s.audio_path];a.append(au);
+    if(s.transcript){const d=document.createElement("details");d.append(el("summary",null,"النص المكتوب"),el("p","transcript",s.transcript));a.append(d)}
+    if(s.recorded_by)a.append(el("p","small","سجّلها: "+s.recorded_by));
+    list.append(a);
+  });
+}
+async function load(){
+  renderTopics();renderGovs();
+  if(!sb){$("setup").hidden=false;renderList();return}
+  const {data,error}=await sb.from("stories").select("id,created_at,title,narrator_display,narrator_age,governorate,wilayah,topic,transcript,recorded_by,audio_path,duration_sec").eq("status","approved").order("created_at",{ascending:false});
+  if(error){$("list").textContent="";$("list").append(el("div","empty","تعذّر تحميل الروايات الآن. حاول لاحقاً."));return}
+  S.stories=data||[];
+  if(S.stories.length){
+    const {data:signed}=await sb.storage.from(BUCKET).createSignedUrls(S.stories.map(s=>s.audio_path),60*60*6);
+    (signed||[]).forEach(x=>{if(x.signedUrl)S.urls[x.path]=x.signedUrl});
   }
-  if(!items.length){const p=document.createElement("p");p.className="msg";p.textContent="لا توجد روايات تطابق هذا البحث.";list.append(p);return}
-  items.forEach(s=>list.append(storyCard(s,false)));
+  renderStats();renderGovs();renderList();
 }
-function renderAll(){renderStats();renderGovs();renderList()}
 
-/* playback: one shared player */
-let ui=null;
-function togglePlay(s,btn,wv,t0,startFrac){
-  const a=$("player");
-  if(S.playing===s.id){if(a.paused)a.play().catch(()=>{});else a.pause();return}
-  if(ui){ui.btn.innerHTML=ICON_PLAY;waveSVG(ui.wv,ui.id,64,null)}
-  S.playing=s.id;ui={btn,wv,t0,id:s.id};
-  a.src=s.audioUrl||("/_blob/"+s.audio);
-  a.onloadedmetadata=()=>{if(startFrac!=null&&isFinite(a.duration))a.currentTime=startFrac*a.duration};
-  a.play().catch(()=>{ui.t0.textContent="تعذّر التشغيل";});
-}
-(function(){const a=$("player");
-  a.addEventListener("play",()=>ui&&(ui.btn.innerHTML=ICON_PAUSE));
-  a.addEventListener("pause",()=>ui&&(ui.btn.innerHTML=ICON_PLAY));
-  a.addEventListener("timeupdate",()=>{if(!ui||!isFinite(a.duration))return;ui.t0.textContent=fmt(a.currentTime);waveSVG(ui.wv,ui.id,64,a.currentTime/a.duration)});
-  a.addEventListener("ended",()=>{if(ui){ui.btn.innerHTML=ICON_PLAY;waveSVG(ui.wv,ui.id,64,null)}S.playing=null});
-})();
-
-/* add form */
-function fillSelect(sel,opts,ph){sel.textContent="";const o=document.createElement("option");o.value="";o.textContent=ph;sel.append(o);opts.forEach(v=>{const x=document.createElement("option");x.value=v;x.textContent=v;sel.append(x)})}
-fillSelect($("fGov"),GOVS,"اختر المحافظة");fillSelect($("fTopic"),TOPICS,"اختر الموضوع");
-$("fAudio").addEventListener("change",()=>{const f=$("fAudio").files[0];$("fileTxt").textContent=f?`✓ ${f.name} (${(f.size/1048576).toFixed(1)} م.ب)`:"اختر التسجيل الصوتي من الهاتف (m4a أو mp4 أو webm)"});
-$("toggleAdd").onclick=()=>{const p=$("addPanel");p.hidden=!p.hidden;$("toggleAdd").textContent=p.hidden?"+ إضافة رواية":"إغلاق النموذج";if(!p.hidden)$("fTitle").focus()};
-function audioDuration(file){return new Promise(res=>{const a=document.createElement("audio");a.preload="metadata";const u=URL.createObjectURL(file);
-  a.onloadedmetadata=()=>{const d=a.duration;URL.revokeObjectURL(u);res(isFinite(d)?d:0)};a.onerror=()=>{URL.revokeObjectURL(u);res(0)};a.src=u;setTimeout(()=>res(0),6000)})}
-async function uploadAudio(file){
-  try{return await S.assets.upload(file)}catch(e){
-    if(!e||(e.code!=="unsupported_type"&&e.code!=="invalid_request"))throw e;
-    const ext=(file.name.split(".").pop()||"").toLowerCase();
-    const alt=["webm","ogg","opus"].includes(ext)?"video/webm":"video/mp4";
-    return await S.assets.upload(file,{type:alt});
-  }
-}
-$("addForm").addEventListener("submit",async ev=>{
-  ev.preventDefault();const msg=$("formMsg");msg.className="msg";
+/* ---------- submission ---------- */
+function fill(sel,opts,ph){sel.textContent="";const o=el("option",null,ph);o.value="";sel.append(o);opts.forEach(v=>{const x=el("option",null,v);x.value=v;sel.append(x)})}
+fill($("fTopic"),TOPICS,"اختر الموضوع");fill($("fGov"),GOVS,"اختر المحافظة");
+$("fAudio").addEventListener("change",()=>{const f=$("fAudio").files[0];$("fileTxt").textContent=f?`تم اختيار: ${f.name} (${(f.size/1048576).toFixed(1)} ميجابايت)`:"اختر التسجيل الصوتي (m4a أو mp3 أو wav، حتى 25 ميجابايت)"});
+$("fName").addEventListener("input",()=>{if($("fRel").value==="الراوي نفسه")$("fSigned").value=$("fName").value});
+function duration(file){return new Promise(res=>{const a=document.createElement("audio");a.preload="metadata";const u=URL.createObjectURL(file);
+  const done=v=>{URL.revokeObjectURL(u);res(v)};a.onloadedmetadata=()=>done(isFinite(a.duration)?Math.round(a.duration):null);a.onerror=()=>done(null);a.src=u;setTimeout(()=>done(null),6000)})}
+const EXT={"audio/mp4":"m4a","audio/x-m4a":"m4a","audio/m4a":"m4a","audio/mpeg":"mp3","audio/mp3":"mp3","audio/wav":"wav","audio/x-wav":"wav","audio/webm":"webm","audio/ogg":"ogg","audio/aac":"aac","video/mp4":"mp4","video/webm":"webm"};
+function extOf(f){const e=(f.name.split(".").pop()||"").toLowerCase();if(["m4a","mp3","wav","webm","ogg","aac","mp4"].includes(e))return e;return EXT[f.type]||null}
+function typeOf(f,ext){if(EXT[f.type])return f.type;return({m4a:"audio/mp4",mp3:"audio/mpeg",wav:"audio/wav",webm:"audio/webm",ogg:"audio/ogg",aac:"audio/aac",mp4:"video/mp4"})[ext]}
+function say(t,cls){const m=$("msg");m.className="msg"+(cls?" "+cls:"");m.textContent=t}
+$("f").addEventListener("submit",async ev=>{
+  ev.preventDefault();
+  if(!sb){say("الأرشيف لم يُربط بقاعدة البيانات بعد.","err");return}
   const f=$("fAudio").files[0];
-  const need=[["fTitle","العنوان"],["fNarr","اسم الراوي"],["fGov","المحافظة"],["fTopic","الموضوع"]].filter(([id])=>!$(id).value.trim());
-  if(need.length){msg.className="msg err";msg.textContent="أكمل: "+need.map(x=>x[1]).join("، ");return}
-  if(!f){msg.className="msg err";msg.textContent="اختر ملف التسجيل الصوتي.";return}
-  if(f.size>20*1048576){msg.className="msg err";msg.textContent="الملف أكبر من 20 م.ب، قصّ التسجيل أو احفظه بجودة أقل.";return}
-  if(!$("fConsent").checked){msg.className="msg err";msg.textContent="أكّد موافقة الراوي على النشر.";return}
-  $("saveBtn").disabled=true;msg.textContent="يُرفع التسجيل…";
+  const miss=[["fTitle","العنوان"],["fTopic","الموضوع"],["fName","اسم الراوي"],["fGov","المحافظة"],["fSigned","اسم من يقرّ بالموافقة"]].filter(([id])=>!$(id).value.trim()).map(x=>x[1]);
+  if(!f)miss.push("التسجيل الصوتي");
+  if(miss.length){say("أكمل: "+miss.join("، "),"err");return}
+  if(!$("cRecord").checked||!$("cAudio").checked){say("لا يمكن حفظ الرواية دون موافقة الراوي على التسجيل ونشر الصوت.","err");return}
+  if(f.size>25*1048576){say("الملف أكبر من 25 ميجابايت. قصّ التسجيل أو احفظه بجودة أقل.","err");return}
+  const ext=extOf(f);if(!ext){say("صيغة الملف غير مدعومة. استخدم m4a أو mp3 أو wav.","err");return}
+  const age=$("fAge").value.trim();if(age&&!(+age>=1&&+age<=130)){say("العمر غير صحيح.","err");return}
+  $("send").disabled=true;say("يُرفع التسجيل… لا تغلق الصفحة.");
   try{
-    const dur=await audioDuration(f);
-    const up=await uploadAudio(f);
-    msg.textContent="يُحفظ في الأرشيف…";
-    const uid=S.user?await S.user.id().catch(()=>null):null;
-    await S.db.collection("stories").add({title:$("fTitle").value.trim(),narrator:$("fNarr").value.trim(),age:$("fAge").value.trim(),
-      gov:$("fGov").value,wilayah:$("fWil").value.trim(),topic:$("fTopic").value,recordedBy:$("fBy").value.trim(),
-      text:$("fText").value.trim(),audio:up.id,duration:Math.round(dur),createdAt:Date.now(),addedBy:uid});
-    $("addForm").reset();$("fileTxt").textContent="اختر التسجيل الصوتي من الهاتف (m4a أو mp4 أو webm)";
-    msg.textContent="حُفظت الرواية في الأرشيف.";
-  }catch(e){msg.className="msg err";
-    msg.textContent=e&&e.code==="unsupported_type"?"صيغة الملف غير مدعومة. احفظ التسجيل بصيغة m4a أو mp4 ثم أعد المحاولة.":
-      "تعذّر الحفظ. تحقق من الاتصال ومن صلاحية التحرير ثم أعد المحاولة.";
-  }finally{$("saveBtn").disabled=false}
+    const id=crypto.randomUUID();const path=`pending/${id}.${ext}`;const type=typeOf(f,ext);
+    const dur=await duration(f);
+    const up=await sb.storage.from(BUCKET).upload(path,f,{contentType:type,upsert:false});
+    if(up.error)throw {step:"upload",e:up.error};
+    say("يُحفظ النموذج…");
+    const {error}=await sb.rpc("submit_story",{p:{
+      title:$("fTitle").value,topic:$("fTopic").value,recorded_by:$("fBy").value,transcript:$("fText").value,
+      narrator_full_name:$("fName").value,narrator_age:age,governorate:$("fGov").value,wilayah:$("fWil").value,
+      audio_path:path,audio_type:type,duration_sec:dur==null?"":String(dur),
+      consent_record:$("cRecord").checked,consent_publish_audio:$("cAudio").checked,consent_publish_transcript:$("cText").checked,
+      consent_show_name:$("cName").checked,consent_show_age:$("cAge").checked,consent_education_use:$("cEdu").checked,
+      signed_by:$("fSigned").value,signer_relation:$("fRel").value,contact:$("fContact").value,consent_version:CONSENT_VERSION}});
+    if(error)throw {step:"save",e:error};
+    $("f").reset();$("fileTxt").textContent="اختر التسجيل الصوتي (m4a أو mp3 أو wav، حتى 25 ميجابايت)";$("cText").checked=true;$("cEdu").checked=true;
+    say("وصلت الرواية إلى الجمعية، شكراً لك. ستظهر في الأرشيف بعد مراجعتها.","ok");
+  }catch(x){
+    const m=(x&&x.e&&x.e.message)||"";
+    say(x&&x.step==="upload"?(/size|large/i.test(m)?"الملف أكبر من المسموح.":/mime|type/i.test(m)?"صيغة الملف غير مدعومة.":"تعذّر رفع التسجيل. تحقق من الاتصال وحاول مرة أخرى."):
+        /consent_required/.test(m)?"موافقة الراوي على التسجيل ونشر الصوت مطلوبة.":"تعذّر حفظ النموذج. حاول مرة أخرى.","err");
+  }finally{$("send").disabled=false}
 });
-async function removeStory(s){
-  S.pendingDel=null;
-  try{if(S.playing===s.id){$("player").pause();S.playing=null}
-    await S.db.doc("stories/"+s.id).delete();
-    if(S.assets&&s.audio){try{await S.assets.delete(s.audio)}catch(_){}}
-  }catch(_){renderList()}
-}
 $("q").addEventListener("input",()=>{S.q=$("q").value;renderList()});
-
-/* boot */
-waveSVG($("heroWave"),"ذاكرة",90,0.38);
-renderTopics();renderAll();
-(async()=>{
-  const use=n=>window.claude?.use?.(n)?.catch?.(()=>null)??Promise.resolve(null);
-  const [db,user,assets]=await Promise.all([use("db"),use("user"),use("assets")]);
-  S.db=db;S.user=user;S.assets=assets;
-  try{S.canEdit=!!db&&!!user&&await user.canEdit()}catch(_){S.canEdit=false}
-  if(S.canEdit&&assets)$("toggleAdd").hidden=false;
-  if(db){
-    db.collection("stories").onSnapshot(snap=>{
-      S.stories=snap.docs.map(d=>({id:d.id,...d.data()})).filter(s=>s.title);renderAll();
-    },()=>{});
-  }
-  else if(!window.claude){ /* GitHub Pages: read the published list */
-    try{const r=await fetch("stories.json",{cache:"no-store"});if(r.ok){const d=await r.json();S.stories=(Array.isArray(d)?d:[]).map((x,i)=>({id:x.id||"s"+i,...x,audioUrl:x.audio_file||null})).filter(s=>s.title);renderAll()}}catch(_){}
-  }
-  renderList();
-})();
+load();
 </script>
 
 </body>

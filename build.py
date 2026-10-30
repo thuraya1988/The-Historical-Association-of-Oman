@@ -1,6 +1,6 @@
 """Build the society's pages.
    python3 build.py  ->  docs/  (GitHub Pages, full documents)  and  artifacts/  (Claude artifact bodies)"""
-import base64, json, os, re, subprocess
+import base64, json, os, re, shutil, subprocess
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(ROOT, "src")
@@ -25,6 +25,8 @@ PAGES = [  # key, template, github file, nav label
     ("archive", "archive.html", "oral-history.html", "الذاكرة الصوتية"),
     ("sources", "sources.html", "sources.html", "مصادر عُمان في العالم"),
 ]
+GITHUB_TEMPLATES = {"archive": "archive-supabase.html"}
+GITHUB_ONLY = [("archive", "archive-admin.html", "oral-history-admin.html", "")]  # not in the menu
 ARTIFACT_URLS = {
     "majlis": "https://claude.ai/artifact/8WDoGRV5EAS7xMxb2TmYp4",
     "calendar": "https://claude.ai/artifact/7HY8GnnrjhP1wnViacbXjA",
@@ -65,7 +67,6 @@ def build(mode):
     out_dir = os.path.join(ROOT, "docs" if mode == "github" else "artifacts")
     os.makedirs(out_dir, exist_ok=True)
     if mode == "github":
-        import shutil
         shutil.copytree(os.path.join(ROOT, "assets"), os.path.join(out_dir, "assets"), dirs_exist_ok=True)
     if mode == "github":
         logos = {"ml": "assets/logo-mark-light.png", "md": "assets/logo-mark-dark.png",
@@ -74,7 +75,18 @@ def build(mode):
         logos = {"ml": data_uri("assets/logo-mark-light.png"), "md": data_uri("assets/logo-mark-dark.png"),
                  "fl": data_uri("assets/logo-full-light.png"), "fd": data_uri("assets/logo-full-dark.png")}
     canvas_logo = data_uri("assets/logo-full-light.png")  # canvas export needs an untainted image
-    for key, tpl, gh, _ in PAGES:
+    pages = list(PAGES)
+    if mode == "github":
+        # the public site talks to Supabase; the Claude artifact keeps its built-in storage
+        pages = [(k, GITHUB_TEMPLATES.get(k, t), g, l) for k, t, g, l in pages] + GITHUB_ONLY
+        static = os.path.join(ROOT, "docs-static")
+        for base, _, files in os.walk(static):
+            for fn in files:
+                dst = os.path.join(out_dir, os.path.relpath(os.path.join(base, fn), static))
+                if not os.path.exists(dst):  # never overwrite a config the society has filled in
+                    os.makedirs(os.path.dirname(dst), exist_ok=True)
+                    shutil.copy(os.path.join(base, fn), dst)
+    for key, tpl, gh, _ in pages:
         if mode == "artifact" and key == "home":
             continue
         s = read(os.path.join("src", tpl))
