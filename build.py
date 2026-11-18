@@ -38,6 +38,7 @@ PLAY = "https://play.under-palm-tree.com/ohs/"
 STANDALONE = [  # العروض الضوئية لليوم الوطني: (القالب، الملف، الرابط الحي)
     ("national-day.html", "national-day.html", PLAY + "national-day"),        # بقي يومان
     ("national-day-eve.html", "national-day-eve.html", PLAY + "national-day-1"),  # بقي يوم واحد
+    ("greeting.html", "greeting.html", PLAY + "greeting"),                        # بطاقة تهنئة بالاسم
 ]
 
 # counts from the data file
