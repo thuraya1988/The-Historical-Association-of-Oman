@@ -34,7 +34,7 @@ ARTIFACT_URLS = {
     "sources": "https://claude.ai/artifact/MYnGs8pFaBqcLZJ32LeHAN",
 }
 REPO_URL = "https://github.com/thuraya1988/The-Historical-Association-of-Oman"
-SITE_URL = "https://hao.under-palm-tree.com"  # subdomain serving docs/ (Vercel, linked to this repo)
+SITE_URL = "https://play.under-palm-tree.com/ohs/national-day"  # live copy (GitHub Pages, play subdomain)
 STANDALONE = [("national-day.html", "national-day.html")]  # العرض الضوئي لليوم الوطني
 
 # counts from the data file
