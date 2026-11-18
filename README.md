@@ -19,11 +19,12 @@ Digital projects of The Historical Association of Oman: interactive pages that b
 
 | الصفحة | الملف | الرابط |
 |---|---|---|
-| العرض الضوئي لليوم الوطني (20 نوفمبر) | `src/national-day.html` ← `docs/national-day.html` | https://play.under-palm-tree.com/ohs/national-day/ |
+| «بقي يومان»: ألعاب نارية وأضواء كاشفة | `src/national-day.html` ← `docs/national-day.html` | https://play.under-palm-tree.com/ohs/national-day/ |
+| «بقي يوم واحد»: طائرات ضوئية فوق البحر ترسم الشعار والرقم 1 وكلمة عُمان | `src/national-day-eve.html` ← `docs/national-day-eve.html` | https://play.under-palm-tree.com/ohs/national-day-1/ |
 
 يحسب العدّ التنازلي الأيام المتبقية بتوقيت مسقط تلقائياً، ويتحول يوم 20 نوفمبر إلى «كل عام وعُمان بخير».
 
-النسخة الحية منشورة على النطاق الفرعي `play.under-palm-tree.com` (GitHub Pages) في المجلد `ohs/national-day/`. بعد أي تعديل على `src/national-day.html` شغّلي `python3 build.py` ثم انسخي `docs/national-day.html` إلى هناك باسم `index.html`.
+النسخة الحية منشورة على النطاق الفرعي `play.under-palm-tree.com` (GitHub Pages) في المجلد `ohs/national-day/`. بعد أي تعديل على `src/national-day.html` شغّلي `python3 build.py` ثم انسخي `docs/national-day.html` إلى `ohs/national-day/index.html` و`docs/national-day-eve.html` إلى `ohs/national-day-1/index.html`.
 
 ## النشر على GitHub Pages
 

@@ -34,8 +34,11 @@ ARTIFACT_URLS = {
     "sources": "https://claude.ai/artifact/MYnGs8pFaBqcLZJ32LeHAN",
 }
 REPO_URL = "https://github.com/thuraya1988/The-Historical-Association-of-Oman"
-SITE_URL = "https://play.under-palm-tree.com/ohs/national-day"  # live copy (GitHub Pages, play subdomain)
-STANDALONE = [("national-day.html", "national-day.html")]  # العرض الضوئي لليوم الوطني
+PLAY = "https://play.under-palm-tree.com/ohs/"
+STANDALONE = [  # العروض الضوئية لليوم الوطني: (القالب، الملف، الرابط الحي)
+    ("national-day.html", "national-day.html", PLAY + "national-day"),        # بقي يومان
+    ("national-day-eve.html", "national-day-eve.html", PLAY + "national-day-1"),  # بقي يوم واحد
+]
 
 # counts from the data file
 cnt = subprocess.run(["node", "-e",
@@ -115,8 +118,8 @@ def build(mode):
             f.write(s)
     if mode == "github":
         # standalone occasion pages (full documents, not in the menu)
-        for tpl, gh in STANDALONE:
-            s = read(os.path.join("src", tpl)).replace("{{SITE_URL}}", SITE_URL)
+        for tpl, gh, url in STANDALONE:
+            s = read(os.path.join("src", tpl)).replace("{{SITE_URL}}", url)
             assert "{{" not in s, tpl
             with open(os.path.join(out_dir, gh), "w", encoding="utf-8") as f:
                 f.write(s)
