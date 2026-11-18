@@ -34,6 +34,8 @@ ARTIFACT_URLS = {
     "sources": "https://claude.ai/artifact/MYnGs8pFaBqcLZJ32LeHAN",
 }
 REPO_URL = "https://github.com/thuraya1988/The-Historical-Association-of-Oman"
+SITE_URL = "https://hao.under-palm-tree.com"  # subdomain serving docs/ (Vercel, linked to this repo)
+STANDALONE = [("national-day.html", "national-day.html")]  # العرض الضوئي لليوم الوطني
 
 # counts from the data file
 cnt = subprocess.run(["node", "-e",
@@ -111,6 +113,13 @@ def build(mode):
                  "\n</head>\n<body>\n" + s[cut:] + "\n</body>\n</html>\n")
         with open(os.path.join(out_dir, gh), "w", encoding="utf-8") as f:
             f.write(s)
+    if mode == "github":
+        # standalone occasion pages (full documents, not in the menu)
+        for tpl, gh in STANDALONE:
+            s = read(os.path.join("src", tpl)).replace("{{SITE_URL}}", SITE_URL)
+            assert "{{" not in s, tpl
+            with open(os.path.join(out_dir, gh), "w", encoding="utf-8") as f:
+                f.write(s)
     print(mode, "->", out_dir, sorted(os.listdir(out_dir)))
 
 if __name__ == "__main__":

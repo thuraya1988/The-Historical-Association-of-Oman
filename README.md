@@ -15,6 +15,18 @@ Digital projects of The Historical Association of Oman: interactive pages that b
 
 الصفحة الرئيسية: `docs/index.html`.
 
+### صفحات المناسبات
+
+| الصفحة | الملف | الرابط |
+|---|---|---|
+| العرض الضوئي لليوم الوطني (20 نوفمبر) | `src/national-day.html` ← `docs/national-day.html` | https://hao.under-palm-tree.com/national-day |
+
+يحسب العدّ التنازلي الأيام المتبقية بتوقيت مسقط تلقائياً، ويتحول يوم 20 نوفمبر إلى «كل عام وعُمان بخير».
+
+## النشر على النطاق الفرعي (Vercel)
+
+مشروع Vercel مربوط بهذا المستودع، ويُنشر المجلد `docs/` تلقائياً مع كل رفع إلى `main` على النطاق `hao.under-palm-tree.com`.
+
 ## النشر على GitHub Pages
 
 من إعدادات المستودع: **Settings → Pages → Build and deployment**، ثم اختاري الفرع `main` والمجلد `/docs`.
