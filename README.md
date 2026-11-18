@@ -22,6 +22,7 @@ Digital projects of The Historical Association of Oman: interactive pages that b
 | «بقي يومان»: ألعاب نارية وأضواء كاشفة | `src/national-day.html` ← `docs/national-day.html` | https://play.under-palm-tree.com/ohs/national-day/ |
 | «بقي يوم واحد»: طائرات ضوئية فوق البحر ترسم الشعار والرقم 1 وكلمة عُمان | `src/national-day-eve.html` ← `docs/national-day-eve.html` | https://play.under-palm-tree.com/ohs/national-day-1/ |
 | بطاقة تهنئة بالاسم (حالة 9:16 ومربعة)، تُرسم في المتصفح ولا يُرسل الاسم لأي مكان | `src/greeting.html` ← `docs/greeting.html` | https://play.under-palm-tree.com/ohs/greeting/ |
+| خريطة القلاع والحصون: 15 قلعة وحصناً، لكل منها نبذة موثقة بمصادرها (نواة لأطلس عُمان التاريخي) | `src/forts.html` ← `docs/forts.html` | https://play.under-palm-tree.com/ohs/forts/ |
 
 يحسب العدّ التنازلي الأيام المتبقية بتوقيت مسقط تلقائياً، ويتحول يوم 20 نوفمبر إلى «كل عام وعُمان بخير».
 

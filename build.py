@@ -39,6 +39,7 @@ STANDALONE = [  # العروض الضوئية لليوم الوطني: (القا
     ("national-day.html", "national-day.html", PLAY + "national-day"),        # بقي يومان
     ("national-day-eve.html", "national-day-eve.html", PLAY + "national-day-1"),  # بقي يوم واحد
     ("greeting.html", "greeting.html", PLAY + "greeting"),                        # بطاقة تهنئة بالاسم
+    ("forts.html", "forts.html", PLAY + "forts"),                                 # خريطة القلاع والحصون
 ]
 
 # counts from the data file
